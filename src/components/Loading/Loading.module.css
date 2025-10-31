@@ -1,0 +1,158 @@
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.text {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Size variants */
+.small {
+  gap: 0.5rem;
+}
+
+.small .text {
+  font-size: 0.75rem;
+}
+
+.medium {
+  gap: 1rem;
+}
+
+.large {
+  gap: 1.5rem;
+}
+
+.large .text {
+  font-size: 1rem;
+}
+
+/* Spinner variant */
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid rgba(253, 242, 233, 0.2);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.small .spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 2px;
+}
+
+.large .spinner {
+  width: 3rem;
+  height: 3rem;
+  border-width: 4px;
+}
+
+/* Dots variant */
+.dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.small .dot {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.large .dot {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Cultural variant - marigold petals */
+.cultural {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.marigold {
+  width: 1rem;
+  height: 1rem;
+  background: radial-gradient(circle, var(--color-primary) 30%, var(--color-accent) 70%);
+  border-radius: 50% 0;
+  transform-origin: center;
+  animation: marigoldSpin 2s ease-in-out infinite;
+}
+
+.marigold:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.marigold:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.marigold:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.small .marigold {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.large .marigold {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Animations */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes marigoldSpin {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 1;
+  }
+}

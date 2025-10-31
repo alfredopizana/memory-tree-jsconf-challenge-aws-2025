@@ -1,0 +1,85 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.default {
+  background-color: var(--color-background);
+}
+
+.altar {
+  background: linear-gradient(180deg, 
+    var(--color-background) 0%, 
+    rgba(44, 62, 80, 0.95) 50%, 
+    rgba(142, 68, 173, 0.1) 100%);
+  position: relative;
+}
+
+.altar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(241, 196, 15, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(142, 68, 173, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.sidebar {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+/* Container styles */
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.padding {
+  padding: 1rem;
+}
+
+.max-width-small {
+  max-width: 640px;
+}
+
+.max-width-medium {
+  max-width: 768px;
+}
+
+.max-width-large {
+  max-width: 1024px;
+}
+
+.max-width-full {
+  max-width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    flex-direction: column;
+  }
+  
+  .padding {
+    padding: 0.75rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .padding {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .padding {
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,254 @@
+.decorationElement {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  z-index: 10;
+  user-select: none;
+}
+
+.decorationElement:hover {
+  transform: scale(1.1);
+  z-index: 20;
+}
+
+.selected {
+  z-index: 30;
+  filter: drop-shadow(0 0 8px var(--color-accent));
+}
+
+.dragging {
+  z-index: 1000;
+  transform: scale(1.2) rotate(5deg);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+/* Size variants */
+.small {
+  transform-origin: center;
+}
+
+.medium {
+  transform-origin: center;
+}
+
+.large {
+  transform-origin: center;
+}
+
+/* Decoration type specific styles */
+.cempasuchil {
+  filter: drop-shadow(2px 2px 4px rgba(255, 107, 53, 0.3));
+}
+
+.cempasuchil:hover {
+  filter: drop-shadow(2px 2px 8px rgba(255, 107, 53, 0.5));
+}
+
+.papel-picado {
+  filter: drop-shadow(2px 2px 4px rgba(142, 68, 173, 0.3));
+}
+
+.papel-picado:hover {
+  filter: drop-shadow(2px 2px 8px rgba(142, 68, 173, 0.5));
+}
+
+.salt-cross {
+  filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+}
+
+.salt-cross:hover {
+  filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.5));
+}
+
+.candle {
+  filter: drop-shadow(2px 2px 6px rgba(241, 196, 15, 0.4));
+}
+
+.candle:hover {
+  filter: drop-shadow(2px 2px 10px rgba(241, 196, 15, 0.6));
+}
+
+.offering {
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.offering:hover {
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+/* SVG container */
+.decorationSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* SVG specific animations */
+.cempasuchilSvg {
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.papelPicadoSvg {
+  animation: paperWave 4s ease-in-out infinite;
+}
+
+.candleSvg {
+  animation: candleFlicker 2s ease-in-out infinite alternate;
+}
+
+/* Controls */
+.controls {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  padding: 4px 8px;
+  animation: fadeInControls 0.2s ease-in-out;
+}
+
+.dragHandle {
+  cursor: grab;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: rgba(189, 195, 199, 0.2);
+  color: var(--color-text);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.dragIcon {
+  font-size: 0.6rem;
+  letter-spacing: -1px;
+}
+
+.sizeButton,
+.rotateButton,
+.deleteButton {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(189, 195, 199, 0.2);
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.sizeButton:hover,
+.rotateButton:hover {
+  background-color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.deleteButton:hover {
+  background-color: #e74c3c;
+  transform: scale(1.1);
+}
+
+.sizeButton:focus-visible,
+.rotateButton:focus-visible,
+.deleteButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+
+@keyframes paperWave {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(-1px) rotate(-1deg);
+  }
+}
+
+@keyframes candleFlicker {
+  0% {
+    filter: brightness(1) drop-shadow(2px 2px 6px rgba(241, 196, 15, 0.4));
+  }
+  100% {
+    filter: brightness(1.1) drop-shadow(2px 2px 10px rgba(241, 196, 15, 0.6));
+  }
+}
+
+@keyframes fadeInControls {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .controls {
+    top: -35px;
+    padding: 3px 6px;
+  }
+  
+  .sizeButton,
+  .rotateButton,
+  .deleteButton {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+  }
+  
+  .dragHandle {
+    padding: 3px 5px;
+  }
+  
+  .decorationElement:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .decorationElement:hover {
+    transform: none;
+  }
+  
+  .decorationElement:active {
+    transform: scale(1.1);
+  }
+  
+  .controls {
+    opacity: 1;
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    margin-top: 8px;
+    justify-content: center;
+  }
+}

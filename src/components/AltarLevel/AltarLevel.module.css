@@ -1,0 +1,293 @@
+.altarLevel {
+  position: relative;
+  min-height: 200px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, 
+    rgba(44, 62, 80, 0.1) 0%, 
+    rgba(142, 68, 173, 0.05) 50%, 
+    rgba(255, 107, 53, 0.1) 100%);
+  border: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* Level-specific styling */
+.level1 {
+  background: linear-gradient(135deg, 
+    rgba(241, 196, 15, 0.15) 0%, 
+    rgba(255, 107, 53, 0.1) 100%);
+  border-color: rgba(241, 196, 15, 0.3);
+}
+
+.level2 {
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.15) 0%, 
+    rgba(142, 68, 173, 0.1) 100%);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.level3 {
+  background: linear-gradient(135deg, 
+    rgba(142, 68, 173, 0.15) 0%, 
+    rgba(44, 62, 80, 0.1) 100%);
+  border-color: rgba(142, 68, 173, 0.3);
+}
+
+/* Drop states */
+.canDrop {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(241, 196, 15, 0.2);
+}
+
+.dropActive {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.2) 0%, 
+    rgba(241, 196, 15, 0.15) 100%);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+  transform: scale(1.02);
+}
+
+/* Level header */
+.levelHeader {
+  position: relative;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.levelTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  font-family: 'Georgia', serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.levelDecoration {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.decorativeLine {
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--color-accent) 20%, 
+    var(--color-primary) 50%, 
+    var(--color-accent) 80%, 
+    transparent 100%);
+  position: relative;
+}
+
+.decorativeLine::before,
+.decorativeLine::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.decorativeLine::before {
+  left: 20%;
+}
+
+.decorativeLine::after {
+  right: 20%;
+}
+
+/* Drop indicator */
+.dropIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  animation: dropPulse 1s ease-in-out infinite;
+}
+
+.dropMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.9) 0%, 
+    rgba(241, 196, 15, 0.9) 100%);
+  border: 2px solid var(--color-accent);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.dropIcon {
+  font-size: 2rem;
+  animation: bounce 0.6s ease-in-out infinite alternate;
+}
+
+.dropText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+/* Members container */
+.membersContainer {
+  position: relative;
+  z-index: 2;
+}
+
+.membersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.memberSlot {
+  display: flex;
+  justify-content: center;
+}
+
+/* Empty level */
+.emptyLevel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  border: 2px dashed rgba(189, 195, 199, 0.3);
+  border-radius: 8px;
+  background: rgba(189, 195, 199, 0.05);
+}
+
+.emptyMessage {
+  text-align: center;
+  opacity: 0.7;
+}
+
+.emptyIcon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  filter: grayscale(1) opacity(0.6);
+}
+
+.emptyText {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Level background decoration */
+.levelBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.altarCloth {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(90deg, 
+    var(--color-secondary) 0%, 
+    var(--color-primary) 50%, 
+    var(--color-secondary) 100%);
+  opacity: 0.3;
+}
+
+.culturalPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(241, 196, 15, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(142, 68, 173, 0.1) 0%, transparent 50%);
+  opacity: 0.6;
+}
+
+/* Animations */
+@keyframes dropPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .altarLevel {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .levelTitle {
+    font-size: 1.25rem;
+  }
+  
+  .membersGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+  
+  .dropMessage {
+    padding: 0.75rem 1rem;
+  }
+  
+  .dropIcon {
+    font-size: 1.5rem;
+  }
+  
+  .dropText {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .membersGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .levelHeader {
+    margin-bottom: 1rem;
+  }
+}

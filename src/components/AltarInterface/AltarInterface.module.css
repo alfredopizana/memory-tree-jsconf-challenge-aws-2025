@@ -1,0 +1,271 @@
+.altarInterface {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(180deg, 
+    rgba(44, 62, 80, 0.95) 0%, 
+    rgba(44, 62, 80, 0.98) 100%);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+/* Altar header */
+.altarHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.altarTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin: 0 0 1rem;
+  font-family: 'Georgia', serif;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(45deg, 
+    var(--color-primary) 0%, 
+    var(--color-accent) 50%, 
+    var(--color-secondary) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: titleShimmer 4s ease-in-out infinite;
+}
+
+.altarDescription {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Altar levels container */
+.altarLevels {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Altar base decoration */
+.altarBase {
+  position: relative;
+  margin-top: 2rem;
+  height: 60px;
+  z-index: 1;
+}
+
+.baseDecoration {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+.saltLine {
+  position: absolute;
+  bottom: 20px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.8) 20%, 
+    rgba(255, 255, 255, 1) 50%, 
+    rgba(255, 255, 255, 0.8) 80%, 
+    transparent 100%);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.marigoldBorder {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15px;
+  background: linear-gradient(90deg, 
+    var(--color-primary) 0%, 
+    var(--color-accent) 25%, 
+    var(--color-primary) 50%, 
+    var(--color-accent) 75%, 
+    var(--color-primary) 100%);
+  background-size: 40px 100%;
+  opacity: 0.7;
+  animation: marigoldFlow 8s linear infinite;
+}
+
+/* Cultural background elements */
+.culturalBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.papelPicado {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  height: 40px;
+  background: linear-gradient(45deg, 
+    var(--color-primary) 0%, 
+    transparent 25%, 
+    var(--color-accent) 50%, 
+    transparent 75%, 
+    var(--color-secondary) 100%);
+  background-size: 60px 40px;
+  opacity: 0.3;
+  animation: papelPicadoWave 6s ease-in-out infinite;
+  clip-path: polygon(
+    0% 100%, 
+    10% 80%, 
+    20% 100%, 
+    30% 85%, 
+    40% 100%, 
+    50% 80%, 
+    60% 100%, 
+    70% 85%, 
+    80% 100%, 
+    90% 80%, 
+    100% 100%, 
+    100% 0%, 
+    0% 0%
+  );
+}
+
+.candleGlow {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, 
+    var(--color-accent) 0%, 
+    rgba(241, 196, 15, 0.6) 30%, 
+    transparent 70%);
+  border-radius: 50%;
+  animation: candleFlicker 3s ease-in-out infinite alternate;
+  box-shadow: 0 0 30px var(--color-accent);
+}
+
+.candleGlow::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  right: -80px;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle, 
+    var(--color-accent) 0%, 
+    rgba(241, 196, 15, 0.4) 40%, 
+    transparent 70%);
+  border-radius: 50%;
+  animation: candleFlicker 2.5s ease-in-out infinite alternate reverse;
+  box-shadow: 0 0 20px var(--color-accent);
+}
+
+/* Animations */
+@keyframes titleShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes marigoldFlow {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 40px;
+  }
+}
+
+@keyframes papelPicadoWave {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(10px) rotate(1deg);
+  }
+  75% {
+    transform: translateX(-10px) rotate(-1deg);
+  }
+}
+
+@keyframes candleFlicker {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .altarInterface {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .altarTitle {
+    font-size: 2rem;
+  }
+  
+  .altarDescription {
+    font-size: 1rem;
+  }
+  
+  .altarLevels {
+    gap: 1.5rem;
+  }
+  
+  .altarBase {
+    margin-top: 1.5rem;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .altarInterface {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .altarTitle {
+    font-size: 1.75rem;
+  }
+  
+  .altarDescription {
+    font-size: 0.9rem;
+  }
+  
+  .altarHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .altarLevels {
+    gap: 1rem;
+  }
+}

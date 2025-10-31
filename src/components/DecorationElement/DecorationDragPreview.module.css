@@ -1,0 +1,106 @@
+.decorationPreview {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.9) 0%, 
+    rgba(241, 196, 15, 0.9) 100%);
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  transform: rotate(2deg);
+}
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 1.5rem;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: decorationGlow 2s ease-in-out infinite alternate;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  line-height: 1;
+}
+
+.hint {
+  font-size: 0.6rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  opacity: 0.9;
+  line-height: 1;
+}
+
+/* Size variants */
+.small {
+  transform: rotate(2deg) scale(0.8);
+}
+
+.small .icon {
+  font-size: 1.2rem;
+}
+
+.small .glow {
+  width: 24px;
+  height: 24px;
+}
+
+.medium {
+  transform: rotate(2deg) scale(1);
+}
+
+.large {
+  transform: rotate(2deg) scale(1.2);
+}
+
+.large .icon {
+  font-size: 1.8rem;
+}
+
+.large .glow {
+  width: 36px;
+  height: 36px;
+}
+
+/* Animations */
+@keyframes decorationGlow {
+  0% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}

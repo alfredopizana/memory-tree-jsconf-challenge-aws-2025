@@ -1,0 +1,359 @@
+.familyMemberCard {
+  position: relative;
+  min-width: 200px;
+  max-width: 280px;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.1) 0%, 
+    rgba(142, 68, 173, 0.05) 50%, 
+    rgba(241, 196, 15, 0.1) 100%);
+  border: 2px solid var(--color-primary);
+  transition: all 0.3s ease-in-out;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.familyMemberCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+  border-color: var(--color-accent);
+}
+
+.selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.3);
+}
+
+.dragging {
+  transform: rotate(5deg) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* Living vs Deceased styling */
+.living {
+  border-color: var(--color-primary);
+}
+
+.deceased {
+  border-color: var(--color-secondary);
+  background: linear-gradient(135deg, 
+    rgba(142, 68, 173, 0.15) 0%, 
+    rgba(44, 62, 80, 0.1) 50%, 
+    rgba(241, 196, 15, 0.1) 100%);
+}
+
+.deceased:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+}
+
+/* Drag handle */
+.dragHandle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  cursor: grab;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.familyMemberCard:hover .dragHandle {
+  opacity: 1;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.dragDots {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dragDots span {
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-text);
+  border-radius: 50%;
+  display: block;
+}
+
+/* Photo section */
+.photoSection {
+  padding: 1rem 1rem 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.photoFrame {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.frameDecoration {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.marigoldCorner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, var(--color-primary) 30%, var(--color-accent) 70%);
+  border-radius: 50% 0;
+}
+
+.topLeft {
+  top: 0;
+  left: 0;
+  transform: rotate(0deg);
+}
+
+.topRight {
+  top: 0;
+  right: 0;
+  transform: rotate(90deg);
+}
+
+.bottomLeft {
+  bottom: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+
+.bottomRight {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, 
+    rgba(189, 195, 199, 0.2) 0%, 
+    rgba(189, 195, 199, 0.1) 100%);
+  border-radius: 50%;
+}
+
+.photoIcon {
+  font-size: 3rem;
+  opacity: 0.6;
+  filter: sepia(1) hue-rotate(20deg) saturate(2);
+}
+
+/* Deceased overlay */
+.deceasedOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, transparent 60%, rgba(142, 68, 173, 0.2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.candleLight {
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: candleFlicker 2s ease-in-out infinite alternate;
+  box-shadow: 0 0 10px var(--color-accent);
+}
+
+/* Member information */
+.memberInfo {
+  padding: 0.5rem 1rem 1rem;
+  text-align: center;
+}
+
+.memberName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 0.25rem;
+  font-family: 'Georgia', serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.lifeSpan {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.5rem;
+  font-weight: 500;
+}
+
+.memberDetails {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(189, 195, 199, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.fullName,
+.birthDate,
+.deathDate,
+.generation {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin: 0.25rem 0;
+  line-height: 1.3;
+}
+
+.fullName {
+  font-style: italic;
+}
+
+/* Action buttons */
+.actions {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  gap: 4px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.actionButton {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.actionButton:hover {
+  background-color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Cultural decorative elements */
+.culturalElements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.paperFlower {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(45deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 50% 0;
+  opacity: 0.6;
+}
+
+.flower1 {
+  top: 20%;
+  right: 10%;
+  transform: rotate(45deg);
+  animation: floatFlower 4s ease-in-out infinite;
+}
+
+.flower2 {
+  bottom: 25%;
+  left: 15%;
+  transform: rotate(-30deg);
+  animation: floatFlower 4s ease-in-out infinite reverse;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes candleFlicker {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes floatFlower {
+  0%, 100% {
+    transform: translateY(0) rotate(45deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(50deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .familyMemberCard {
+    min-width: 160px;
+    max-width: 200px;
+  }
+  
+  .photoFrame {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .memberName {
+    font-size: 1rem;
+  }
+  
+  .lifeSpan {
+    font-size: 0.8rem;
+  }
+  
+  .memberDetails {
+    font-size: 0.7rem;
+  }
+}

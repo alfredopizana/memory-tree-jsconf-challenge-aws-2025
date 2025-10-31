@@ -1,0 +1,254 @@
+.decorationDropZone {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Drop states */
+.canDrop {
+  background: rgba(241, 196, 15, 0.05);
+}
+
+.dropActive {
+  background: rgba(255, 107, 53, 0.1);
+  box-shadow: inset 0 0 0 2px rgba(255, 107, 53, 0.3);
+}
+
+/* Drop overlay */
+.dropOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+.dropIndicator {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.9) 0%, 
+    rgba(241, 196, 15, 0.9) 100%);
+  border: 2px solid var(--color-accent);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  animation: dropPulse 1s ease-in-out infinite;
+}
+
+.dropRipple {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-text);
+  border-radius: 50%;
+  position: relative;
+  animation: ripple 1.5s ease-out infinite;
+}
+
+.dropRipple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: var(--color-text);
+  border-radius: 50%;
+  animation: innerPulse 1.5s ease-out infinite;
+}
+
+.dropText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+/* Boundary indicators */
+.boundaries {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.canDrop .boundaries {
+  opacity: 1;
+}
+
+.boundaryCorner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-accent);
+  opacity: 0.6;
+}
+
+.topLeft {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.topRight {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.bottomLeft {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+
+.bottomRight {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Content area */
+.dropZoneContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+/* Decorations layer */
+.decorationsLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.decorationWrapper {
+  pointer-events: auto;
+}
+
+/* Grid overlay for positioning guidance */
+.gridOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.gridLines {
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(241, 196, 15, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(241, 196, 15, 0.2) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridShift 4s linear infinite;
+}
+
+/* Animations */
+@keyframes dropPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes innerPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.7;
+  }
+}
+
+@keyframes gridShift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .decorationDropZone {
+    min-height: 150px;
+  }
+  
+  .dropIndicator {
+    padding: 0.75rem 1rem;
+  }
+  
+  .dropRipple {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .dropRipple::before {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .dropText {
+    font-size: 0.8rem;
+  }
+  
+  .boundaryCorner {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .gridLines {
+    background-size: 30px 30px;
+  }
+}
