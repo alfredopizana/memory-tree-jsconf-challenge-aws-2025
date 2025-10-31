@@ -1,17 +1,20 @@
-import React from 'react';
-import { FamilyMember, DecorationElement } from '../../types';
+import React, { useState, useCallback } from 'react';
+import { FamilyMember, DecorationElement, DecorationType } from '../../types';
 import { AltarLevel } from '../AltarLevel/AltarLevel';
+import { useAltarLayout } from '../../hooks/useAltarLayout';
 import styles from './AltarInterface.module.css';
 
 export interface AltarInterfaceProps {
-  familyMembers: FamilyMember[];
-  decorations: DecorationElement[];
-  onMemberMove: (member: FamilyMember, newLevel: number, newOrder: number) => void;
-  onDecorationMove: (decoration: DecorationElement, newPosition: { x: number; y: number; level: number }) => void;
+  familyMembers?: FamilyMember[];
+  decorations?: DecorationElement[];
+  altarId?: string;
+  onMemberMove?: (member: FamilyMember, newLevel: number, newOrder: number) => void;
+  onDecorationMove?: (decoration: DecorationElement, newPosition: { x: number; y: number; level: number }) => void;
   onMemberEdit?: (member: FamilyMember) => void | undefined;
   onMemberViewMemories?: (memberId: string) => void | undefined;
   onMemberSelect?: (memberId: string) => void | undefined;
   onDecorationSelect?: (decorationId: string) => void | undefined;
+  onDecorationAdd?: (type: DecorationType, position: { x: number; y: number; level: number }) => void;
   className?: string;
 }
 
@@ -34,63 +37,280 @@ const ALTAR_LEVELS = [
   }
 ];
 
+// Decoration palette configuration
+const DECORATION_TYPES = [
+  {
+    type: 'cempasuchil' as DecorationType,
+    name: 'Cempasúchil',
+    icon: '🌼',
+    description: 'Flor de muerto tradicional'
+  },
+  {
+    type: 'papel-picado' as DecorationType,
+    name: 'Papel Picado',
+    icon: '🎊',
+    description: 'Papel decorativo perforado'
+  },
+  {
+    type: 'candle' as DecorationType,
+    name: 'Velas',
+    icon: '🕯️',
+    description: 'Velas para iluminar el camino'
+  },
+  {
+    type: 'salt-cross' as DecorationType,
+    name: 'Cruz de Sal',
+    icon: '✝️',
+    description: 'Cruz protectora de sal'
+  },
+  {
+    type: 'offering' as DecorationType,
+    name: 'Ofrendas',
+    icon: '🍞',
+    description: 'Comida y bebidas favoritas'
+  }
+];
+
 export const AltarInterface: React.FC<AltarInterfaceProps> = ({
-  familyMembers,
-  decorations,
-  onMemberMove,
-  onDecorationMove,
+  familyMembers: propFamilyMembers,
+  decorations: propDecorations,
+  altarId,
+  onMemberMove: propOnMemberMove,
+  onDecorationMove: propOnDecorationMove,
   onMemberEdit,
   onMemberViewMemories,
   onMemberSelect,
   onDecorationSelect,
+  onDecorationAdd: propOnDecorationAdd,
   className = '',
 }) => {
-  const handleMemberDrop = (member: FamilyMember, targetLevel: number, targetOrder: number) => {
+  const [selectedDecorationType, setSelectedDecorationType] = useState<DecorationType | null>(null);
+  
+  // Use the altar layout hook for persistence and state management
+  const {
+    familyMembers: hookFamilyMembers,
+    decorations: hookDecorations,
+    altarState,
+    isLoading,
+    error,
+    moveFamilyMember: hookMoveFamilyMember,
+    moveDecoration: hookMoveDecoration,
+    addDecoration: hookAddDecoration,
+  } = useAltarLayout(altarId ? {
+    altarId,
+    initialMembers: propFamilyMembers || [],
+    initialDecorations: propDecorations || [],
+  } : {
+    initialMembers: propFamilyMembers || [],
+    initialDecorations: propDecorations || [],
+  });
+
+  // Use hook data if available, otherwise fall back to props
+  const familyMembers = altarId ? hookFamilyMembers : (propFamilyMembers || []);
+  const decorations = altarId ? hookDecorations : (propDecorations || []);
+  const handleMemberDrop = useCallback(async (member: FamilyMember, targetLevel: number, targetOrder: number) => {
     // Only move if the position actually changed
     if (member.altarPosition.level !== targetLevel || member.altarPosition.order !== targetOrder) {
-      onMemberMove(member, targetLevel, targetOrder);
+      if (altarId) {
+        // Use hook method for persistence
+        await hookMoveFamilyMember(member, targetLevel, targetOrder);
+      } else if (propOnMemberMove) {
+        // Fall back to prop callback
+        propOnMemberMove(member, targetLevel, targetOrder);
+      }
     }
-  };
+  }, [altarId, hookMoveFamilyMember, propOnMemberMove]);
 
-  const handleDecorationDrop = (decoration: DecorationElement, newPosition: { x: number; y: number; level: number }) => {
+  const handleDecorationDrop = useCallback(async (decoration: DecorationElement, newPosition: { x: number; y: number; level: number }) => {
     // Only move if the position actually changed
     const currentPos = decoration.position;
     if (currentPos.x !== newPosition.x || currentPos.y !== newPosition.y || currentPos.level !== newPosition.level) {
-      onDecorationMove(decoration, newPosition);
+      if (altarId) {
+        // Use hook method for persistence
+        await hookMoveDecoration(decoration, newPosition);
+      } else if (propOnDecorationMove) {
+        // Fall back to prop callback
+        propOnDecorationMove(decoration, newPosition);
+      }
     }
-  };
+  }, [altarId, hookMoveDecoration, propOnDecorationMove]);
+
+  const handleDecorationTypeSelect = useCallback((type: DecorationType) => {
+    setSelectedDecorationType(type === selectedDecorationType ? null : type);
+  }, [selectedDecorationType]);
+
+  const handleDecorationAdd = useCallback(async (type: DecorationType, level: number) => {
+    // Add decoration at a random position within the level
+    const position = {
+      x: Math.random() * 300 + 50, // Random x between 50-350
+      y: Math.random() * 100 + 50, // Random y between 50-150
+      level
+    };
+    
+    if (altarId) {
+      // Use hook method for persistence
+      await hookAddDecoration(type, position);
+    } else if (propOnDecorationAdd) {
+      // Fall back to prop callback
+      propOnDecorationAdd(type, position);
+    }
+    
+    setSelectedDecorationType(null);
+  }, [altarId, hookAddDecoration, propOnDecorationAdd]);
+
+  // Count decorations by type for display
+  const decorationCounts = DECORATION_TYPES.reduce((counts, { type }) => {
+    counts[type] = decorations.filter(d => d.type === type).length;
+    return counts;
+  }, {} as Record<DecorationType, number>);
 
   const altarClasses = [
     styles.altarInterface,
+    altarState?.backgroundTheme ? styles[`theme-${altarState.backgroundTheme}`] : '',
+    isLoading ? styles.loading : '',
+    error ? styles.error : '',
     className
   ].filter(Boolean).join(' ');
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className={altarClasses}>
+        <div className={styles.loadingState}>
+          <div className={styles.loadingSpinner}></div>
+          <p>Cargando altar...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={altarClasses}>
       {/* Altar header */}
       <div className={styles.altarHeader}>
-        <h2 className={styles.altarTitle}>Altar de la Memoria Familiar</h2>
+        <h2 className={styles.altarTitle}>
+          {altarState?.name || 'Altar de la Memoria Familiar'}
+        </h2>
         <p className={styles.altarDescription}>
           Arrastra a los miembros de tu familia a los diferentes niveles del altar tradicional
         </p>
+        {error && (
+          <div className={styles.errorMessage}>
+            <span className={styles.errorIcon}>⚠️</span>
+            <span>{error}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Decoration Palette */}
+      <div className={styles.decorationPalette}>
+        <div className={styles.paletteHeader}>
+          <h3 className={styles.paletteTitle}>Decoraciones Tradicionales</h3>
+          <p className={styles.paletteDescription}>
+            Selecciona decoraciones para añadir al altar
+          </p>
+        </div>
+        <div className={styles.decorationGrid}>
+          {DECORATION_TYPES.map(({ type, name, icon, description }) => (
+            <div
+              key={type}
+              className={styles.decorationItem}
+              onClick={() => handleDecorationTypeSelect(type)}
+              title={description}
+              style={{
+                borderColor: selectedDecorationType === type ? 'var(--color-primary)' : 'transparent',
+                background: selectedDecorationType === type ? 'rgba(255, 107, 53, 0.2)' : 'rgba(255, 255, 255, 0.05)'
+              }}
+            >
+              <div className={styles.decorationIcon}>{icon}</div>
+              <div className={styles.decorationName}>{name}</div>
+              {decorationCounts[type] > 0 && (
+                <div className={styles.decorationCount}>{decorationCounts[type]}</div>
+              )}
+              {selectedDecorationType === type && (
+                <div className={styles.selectedIndicator}>
+                  <span>✨</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        
+        {/* Decoration management tools */}
+        <div className={styles.decorationTools}>
+          <div className={styles.toolsHeader}>
+            <span className={styles.toolsTitle}>Herramientas</span>
+          </div>
+          <div className={styles.toolsGrid}>
+            <button 
+              className={styles.toolButton}
+              onClick={() => setSelectedDecorationType(null)}
+              title="Cancelar selección"
+            >
+              <span className={styles.toolIcon}>❌</span>
+              <span className={styles.toolName}>Cancelar</span>
+            </button>
+            <button 
+              className={styles.toolButton}
+              onClick={() => {
+                // Clear all decorations (would need to implement this)
+                console.log('Clear all decorations');
+              }}
+              title="Limpiar todas las decoraciones"
+            >
+              <span className={styles.toolIcon}>🧹</span>
+              <span className={styles.toolName}>Limpiar</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Altar levels */}
       <div className={styles.altarLevels}>
         {ALTAR_LEVELS.map((levelConfig) => (
-          <AltarLevel
-            key={levelConfig.level}
-            level={levelConfig.level}
-            levelName={levelConfig.name}
-            members={familyMembers}
-            decorations={decorations}
-            onMemberDrop={handleMemberDrop}
-            onDecorationDrop={handleDecorationDrop}
-            {...(onMemberEdit && { onMemberEdit })}
-            {...(onMemberViewMemories && { onMemberViewMemories })}
-            {...(onMemberSelect && { onMemberSelect })}
-            {...(onDecorationSelect && { onDecorationSelect })}
-          />
+          <div 
+            key={levelConfig.level} 
+            className={`${styles.decorationLayer} ${styles[`level${levelConfig.level}`]} ${styles.interactive}`}
+            style={{ zIndex: 10 + levelConfig.level }}
+          >
+            <AltarLevel
+              level={levelConfig.level}
+              levelName={levelConfig.name}
+              members={familyMembers}
+              decorations={decorations.filter(d => d.position.level === levelConfig.level)}
+              onMemberDrop={handleMemberDrop}
+              onDecorationDrop={handleDecorationDrop}
+              selectedDecorationType={selectedDecorationType}
+              onDecorationAdd={handleDecorationAdd}
+              {...(onMemberEdit && { onMemberEdit })}
+              {...(onMemberViewMemories && { onMemberViewMemories })}
+              {...(onMemberSelect && { onMemberSelect })}
+              {...(onDecorationSelect && { onDecorationSelect })}
+            />
+            
+            {/* Decoration overlay for this level */}
+            <div className={`${styles.decorationOverlay} ${styles[`overlay-level${levelConfig.level}`]}`}>
+              {decorations
+                .filter(decoration => decoration.position.level === levelConfig.level)
+                .map(decoration => (
+                  <div
+                    key={decoration.id}
+                    className={styles.decorationWrapper}
+                    style={{
+                      position: 'absolute',
+                      left: decoration.position.x,
+                      top: decoration.position.y,
+                      zIndex: 50 + levelConfig.level,
+                    }}
+                  >
+                    {/* Decoration element would be rendered here */}
+                    <div className={styles.decorationPlaceholder}>
+                      {DECORATION_TYPES.find(t => t.type === decoration.type)?.icon || '✨'}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
         ))}
       </div>
 

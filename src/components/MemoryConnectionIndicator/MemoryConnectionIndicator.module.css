@@ -1,0 +1,304 @@
+/* Memory Connection Indicator Styles - Day of the Dead Theme */
+
+.memoryConnections {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.memoriesContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Memory Indicator Dots */
+.memoryDot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  background: rgba(255, 107, 53, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memoryDot:hover {
+  transform: scale(1.2);
+  border-color: var(--color-accent);
+  background: rgba(241, 196, 15, 0.3);
+  box-shadow: 0 2px 8px rgba(241, 196, 15, 0.4);
+}
+
+.memoryDot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.memoryDot.withPhotos {
+  border-color: var(--color-accent);
+  background: rgba(241, 196, 15, 0.3);
+}
+
+.memoryDot.recent {
+  border-color: var(--color-secondary);
+  background: rgba(142, 68, 173, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.memoryDot.recent.withPhotos {
+  background: linear-gradient(45deg, 
+    rgba(241, 196, 15, 0.3) 0%, 
+    rgba(142, 68, 173, 0.3) 100%);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.dotInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+}
+
+.photoIcon {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  font-size: 0.5rem;
+  background: var(--color-background);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recentIndicator {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  font-size: 0.5rem;
+  animation: sparkle 1.5s infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* Remaining Count */
+.remainingCount {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-secondary);
+  background: rgba(189, 195, 199, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* Total Count */
+.totalCount {
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Connection Lines */
+.connectionLines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connectionLine {
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  opacity: 0.6;
+  animation: connectionPulse 3s infinite;
+}
+
+@keyframes connectionPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Compact Memory List */
+.memoryListCompact {
+  width: 100%;
+  max-width: 300px;
+}
+
+.memoryItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.memoryItem {
+  padding: 0.5rem;
+  background: rgba(253, 242, 233, 0.05);
+  border: 1px solid rgba(189, 195, 199, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.memoryItem:hover {
+  border-color: var(--color-primary);
+  background: rgba(255, 107, 53, 0.1);
+  transform: translateY(-1px);
+}
+
+.memoryItemContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.memoryItemTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.memoryItemDate {
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+}
+
+.memoryItemPhoto {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.moreMemories {
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  text-align: center;
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Empty State */
+.emptyMemories {
+  padding: 1rem;
+  text-align: center;
+}
+
+.emptyText {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .memoryDot {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .remainingCount {
+    width: 16px;
+    height: 16px;
+    font-size: 0.5rem;
+  }
+  
+  .totalCount {
+    font-size: 0.5rem;
+  }
+  
+  .memoryItemTitle {
+    font-size: 0.625rem;
+  }
+  
+  .memoryItemDate {
+    font-size: 0.5rem;
+  }
+}
+
+/* Cultural decorative elements */
+.memoryDot::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, 
+    var(--color-primary) 0%, 
+    var(--color-accent) 50%, 
+    var(--color-secondary) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  z-index: -1;
+}
+
+.memoryDot:hover::before {
+  opacity: 0.3;
+}
+
+/* Accessibility improvements */
+.memoryDot[aria-pressed="true"] {
+  border-color: var(--color-secondary);
+  background: rgba(142, 68, 173, 0.4);
+}
+
+.memoryItem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}

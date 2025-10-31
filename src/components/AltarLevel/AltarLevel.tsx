@@ -17,6 +17,8 @@ export interface AltarLevelProps {
   onMemberViewMemories?: (memberId: string) => void | undefined;
   onMemberSelect?: (memberId: string) => void | undefined;
   onDecorationSelect?: (decorationId: string) => void | undefined;
+  selectedDecorationType?: import('../../types').DecorationType | null;
+  onDecorationAdd?: (type: import('../../types').DecorationType, level: number) => void;
   className?: string;
 }
 
@@ -31,6 +33,8 @@ export const AltarLevel: React.FC<AltarLevelProps> = ({
   onMemberViewMemories,
   onMemberSelect,
   onDecorationSelect,
+  selectedDecorationType,
+  onDecorationAdd,
   className = '',
 }) => {
   const [{ isOver, canDrop }, drop] = useDrop<
@@ -65,11 +69,22 @@ export const AltarLevel: React.FC<AltarLevelProps> = ({
     .filter(member => member.altarPosition.level === level)
     .sort((a, b) => a.altarPosition.order - b.altarPosition.order);
 
+  const handleLevelClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (selectedDecorationType && onDecorationAdd) {
+      // Prevent adding decoration if clicking on a member card
+      const target = event.target as HTMLElement;
+      if (!target.closest('[data-member-card]')) {
+        onDecorationAdd(selectedDecorationType, level);
+      }
+    }
+  };
+
   const levelClasses = [
     styles.altarLevel,
     styles[`level${level}`],
     isOver && canDrop ? styles.dropActive : '',
     canDrop ? styles.canDrop : '',
+    selectedDecorationType ? styles.decorationMode : '',
     className
   ].filter(Boolean).join(' ');
 
@@ -81,7 +96,12 @@ export const AltarLevel: React.FC<AltarLevelProps> = ({
       {...(onDecorationSelect && { onDecorationSelect })}
       className={className}
     >
-      <div ref={drop} className={levelClasses}>
+      <div 
+        ref={drop} 
+        className={levelClasses}
+        onClick={handleLevelClick}
+        style={{ cursor: selectedDecorationType ? 'crosshair' : 'default' }}
+      >
         {/* Level header */}
         <div className={styles.levelHeader}>
           <h3 className={styles.levelTitle}>{levelName}</h3>
@@ -105,7 +125,7 @@ export const AltarLevel: React.FC<AltarLevelProps> = ({
           {sortedMembers.length > 0 ? (
             <div className={styles.membersGrid}>
               {sortedMembers.map((member) => (
-                <div key={member.id} className={styles.memberSlot}>
+                <div key={member.id} className={styles.memberSlot} data-member-card>
                   <FamilyMemberCard
                     member={member}
                     {...(onMemberEdit && { onEdit: onMemberEdit })}

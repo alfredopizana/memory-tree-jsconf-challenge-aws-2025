@@ -9,12 +9,23 @@
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   overflow: hidden;
+  
+  /* CSS Grid layout for altar structure */
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas: 
+    "header"
+    "levels"
+    "base"
+    "background";
+  gap: 1rem;
+  min-height: 80vh;
 }
 
 /* Altar header */
 .altarHeader {
+  grid-area: header;
   text-align: center;
-  margin-bottom: 3rem;
   position: relative;
   z-index: 2;
 }
@@ -50,17 +61,19 @@
 
 /* Altar levels container */
 .altarLevels {
+  grid-area: levels;
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1.5rem;
+  padding: 1rem 0;
 }
 
 /* Altar base decoration */
 .altarBase {
+  grid-area: base;
   position: relative;
-  margin-top: 2rem;
   height: 60px;
   z-index: 1;
 }
@@ -107,6 +120,7 @@
 
 /* Cultural background elements */
 .culturalBackground {
+  grid-area: background;
   position: absolute;
   top: 0;
   left: 0;
@@ -223,10 +237,60 @@
 }
 
 /* Responsive design */
+
+/* Desktop (large screens) */
+@media (min-width: 1025px) {
+  .altarInterface {
+    padding: 2.5rem;
+    max-width: 1400px;
+    grid-template-columns: 1fr 300px;
+    grid-template-areas: 
+      "header header"
+      "levels palette"
+      "base palette"
+      "background background";
+  }
+  
+  .altarLevels {
+    gap: 2rem;
+  }
+}
+
+/* Tablet (medium screens) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .altarInterface {
+    padding: 2rem;
+    margin: 1rem;
+    grid-template-columns: 1fr 250px;
+    grid-template-areas: 
+      "header header"
+      "levels palette"
+      "base base"
+      "background background";
+  }
+  
+  .altarLevels {
+    gap: 1.5rem;
+  }
+  
+  .altarTitle {
+    font-size: 2.25rem;
+  }
+}
+
+/* Mobile (small screens) */
 @media (max-width: 768px) {
   .altarInterface {
     padding: 1.5rem;
     margin: 1rem;
+    grid-template-rows: auto auto 1fr auto auto;
+    grid-template-areas: 
+      "header"
+      "palette"
+      "levels"
+      "base"
+      "background";
+    min-height: 90vh;
   }
   
   .altarTitle {
@@ -238,19 +302,21 @@
   }
   
   .altarLevels {
-    gap: 1.5rem;
+    gap: 1.25rem;
+    grid-template-rows: repeat(3, minmax(180px, 1fr));
   }
   
   .altarBase {
-    margin-top: 1.5rem;
     height: 40px;
   }
 }
 
+/* Mobile (extra small screens) */
 @media (max-width: 480px) {
   .altarInterface {
     padding: 1rem;
     margin: 0.5rem;
+    min-height: 95vh;
   }
   
   .altarTitle {
@@ -261,11 +327,506 @@
     font-size: 0.9rem;
   }
   
-  .altarHeader {
-    margin-bottom: 2rem;
-  }
-  
   .altarLevels {
     gap: 1rem;
+    grid-template-rows: repeat(3, minmax(160px, 1fr));
+  }
+  
+  .altarBase {
+    height: 30px;
+  }
+}
+
+/* Decoration Palette */
+.decorationPalette {
+  grid-area: palette;
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba(44, 62, 80, 0.8) 0%, 
+    rgba(142, 68, 173, 0.6) 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 2px solid rgba(241, 196, 15, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.paletteHeader {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.paletteTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0 0 0.5rem;
+  font-family: 'Georgia', serif;
+}
+
+.paletteDescription {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-style: italic;
+}
+
+.decorationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.decorationItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.decorationItem:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+}
+
+.decorationIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.decorationName {
+  font-size: 0.75rem;
+  color: var(--color-text);
+  text-align: center;
+  font-weight: 500;
+}
+
+.decorationCount {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--color-accent);
+  color: var(--color-background);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Z-index management for layered decorations */
+.decorationLayer {
+  position: relative;
+  pointer-events: auto;
+}
+
+.decorationLayer.interactive {
+  pointer-events: auto;
+}
+
+/* Level-specific z-index layers */
+.decorationLayer.level1 {
+  z-index: 11;
+}
+
+.decorationLayer.level2 {
+  z-index: 21;
+}
+
+.decorationLayer.level3 {
+  z-index: 31;
+}
+
+.decorationLayer.floating {
+  z-index: 100;
+}
+
+/* Decoration overlay management */
+.decorationOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.overlay-level1 {
+  z-index: 51;
+}
+
+.overlay-level2 {
+  z-index: 52;
+}
+
+.overlay-level3 {
+  z-index: 53;
+}
+
+.decorationWrapper {
+  pointer-events: auto;
+  transition: all 0.2s ease-in-out;
+}
+
+.decorationWrapper:hover {
+  z-index: 100 !important;
+  transform: scale(1.1);
+}
+
+.decorationPlaceholder {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border: 2px solid rgba(241, 196, 15, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.decorationPlaceholder:hover {
+  background: rgba(241, 196, 15, 0.2);
+  border-color: var(--color-accent);
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+}
+
+/* Mobile decoration palette adjustments */
+@media (max-width: 768px) {
+  .decorationPalette {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .paletteTitle {
+    font-size: 1.1rem;
+  }
+  
+  .decorationGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .decorationItem {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .decorationIcon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .decorationName {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .decorationGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .decorationItem {
+    padding: 0.5rem;
+  }
+  
+  .decorationIcon {
+    font-size: 1.25rem;
+  }
+  
+  .decorationName {
+    font-size: 0.65rem;
+  }
+}/* Lo
+ading and Error States */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: var(--color-text);
+}
+
+.loadingSpinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(241, 196, 15, 0.3);
+  border-top: 4px solid var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  color: #e74c3c;
+  font-size: 0.9rem;
+}
+
+.errorIcon {
+  font-size: 1.1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Theme Variations */
+.theme-traditional {
+  background: linear-gradient(180deg, 
+    rgba(44, 62, 80, 0.95) 0%, 
+    rgba(44, 62, 80, 0.98) 100%);
+}
+
+.theme-modern {
+  background: linear-gradient(180deg, 
+    rgba(52, 73, 94, 0.95) 0%, 
+    rgba(44, 62, 80, 0.98) 100%);
+}
+
+.theme-minimal {
+  background: linear-gradient(180deg, 
+    rgba(44, 62, 80, 0.90) 0%, 
+    rgba(44, 62, 80, 0.95) 100%);
+}
+
+/* Level-based styling enhancements */
+.altarLevels .decorationLayer:nth-child(1) {
+  /* Cielo - Heaven level styling */
+  background: linear-gradient(135deg, 
+    rgba(241, 196, 15, 0.05) 0%, 
+    rgba(255, 107, 53, 0.03) 100%);
+}
+
+.altarLevels .decorationLayer:nth-child(2) {
+  /* Tierra - Earth level styling */
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.05) 0%, 
+    rgba(142, 68, 173, 0.03) 100%);
+}
+
+.altarLevels .decorationLayer:nth-child(3) {
+  /* Inframundo - Underworld level styling */
+  background: linear-gradient(135deg, 
+    rgba(142, 68, 173, 0.05) 0%, 
+    rgba(44, 62, 80, 0.03) 100%);
+}
+
+/* Enhanced responsive design for level-based styling */
+@media (max-width: 768px) {
+  .loadingState {
+    min-height: 300px;
+  }
+  
+  .loadingSpinner {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .errorMessage {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .loadingState {
+    min-height: 250px;
+  }
+  
+  .loadingSpinner {
+    width: 35px;
+    height: 35px;
+    border-width: 3px;
+  }
+}/* En
+hanced decoration palette features */
+.selectedIndicator {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.decorationTools {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(241, 196, 15, 0.2);
+}
+
+.toolsHeader {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.toolsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.toolsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.toolButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--color-text);
+}
+
+.toolButton:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+}
+
+.toolButton:active {
+  transform: translateY(0);
+}
+
+.toolIcon {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.toolName {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Advanced z-index management */
+.decorationLayer.active {
+  z-index: 200 !important;
+}
+
+.decorationLayer.active .decorationOverlay {
+  z-index: 201 !important;
+}
+
+.decorationLayer.active .decorationWrapper {
+  z-index: 202 !important;
+}
+
+/* Decoration interaction states */
+.decorationWrapper.dragging {
+  z-index: 1000 !important;
+  transform: scale(1.2) rotate(5deg);
+  filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.4));
+}
+
+.decorationWrapper.selected {
+  z-index: 500 !important;
+  filter: drop-shadow(0 0 15px var(--color-accent));
+}
+
+/* Mobile decoration tools adjustments */
+@media (max-width: 768px) {
+  .decorationTools {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+  }
+  
+  .toolsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .toolButton {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .toolIcon {
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+  
+  .toolName {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .selectedIndicator {
+    width: 16px;
+    height: 16px;
+    font-size: 0.6rem;
+    top: -6px;
+    right: -6px;
+  }
+  
+  .decorationTools {
+    margin-top: 0.75rem;
+  }
+  
+  .toolButton {
+    padding: 0.4rem;
   }
 }

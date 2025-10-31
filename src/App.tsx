@@ -93,6 +93,17 @@ function App(): JSX.Element {
     );
   };
 
+  const handleDecorationAdd = (type: DecorationData['type'], position: { x: number; y: number; level: number }) => {
+    const newDecoration: DecorationData = {
+      id: `decoration-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type,
+      position,
+      size: 'medium',
+      rotation: 0
+    };
+    setDecorations(prev => [...prev, newDecoration]);
+  };
+
   return (
     <DragDropProvider>
       <Layout variant="altar">
@@ -119,10 +130,11 @@ function App(): JSX.Element {
                   decorations={decorations}
                   onMemberMove={handleMemberMove}
                   onDecorationMove={handleDecorationMove}
-                  onMemberEdit={(member) => console.log('Edit member:', member)}
-                  onMemberViewMemories={(memberId) => console.log('View memories for:', memberId)}
-                  onMemberSelect={(memberId) => console.log('Selected member:', memberId)}
-                  onDecorationSelect={(decorationId) => console.log('Selected decoration:', decorationId)}
+                  onDecorationAdd={handleDecorationAdd}
+                  onMemberEdit={(member: FamilyMember) => console.log('Edit member:', member)}
+                  onMemberViewMemories={(memberId: string) => console.log('View memories for:', memberId)}
+                  onMemberSelect={(memberId: string) => console.log('Selected member:', memberId)}
+                  onDecorationSelect={(decorationId: string) => console.log('Selected decoration:', decorationId)}
                 />
               ) : (
                 <Grid columns={3} gap="large">

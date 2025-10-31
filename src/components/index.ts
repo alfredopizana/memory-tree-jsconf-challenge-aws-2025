@@ -13,6 +13,10 @@ export { DecorationElement } from './DecorationElement';
 export { AltarLevel } from './AltarLevel';
 export { AltarInterface } from './AltarInterface';
 export { DecorationDropZone } from './DecorationDropZone';
+export { MemoryPanel } from './MemoryPanel';
+export { MemoryAssociationManager } from './MemoryAssociationManager';
+export { MemoryPhotoManager } from './MemoryPhotoManager';
+export { MemoryConnectionIndicator, MemoryConnectionLines, MemoryListCompact } from './MemoryConnectionIndicator';
 
 // Type exports
 export type { ButtonProps } from './Button';
@@ -26,3 +30,7 @@ export type { DecorationElementProps } from './DecorationElement';
 export type { AltarLevelProps } from './AltarLevel';
 export type { AltarInterfaceProps } from './AltarInterface';
 export type { DecorationDropZoneProps } from './DecorationDropZone';
+export type { MemoryPanelProps } from './MemoryPanel';
+export type { MemoryAssociationManagerProps } from './MemoryAssociationManager';
+export type { MemoryPhotoManagerProps } from './MemoryPhotoManager';
+export type { MemoryConnectionIndicatorProps, MemoryConnectionLinesProps, MemoryListCompactProps } from './MemoryConnectionIndicator';

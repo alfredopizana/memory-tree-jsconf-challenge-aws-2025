@@ -1,0 +1,522 @@
+/* Memory Photo Manager Styles - Day of the Dead Theme */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2100;
+  padding: 2rem;
+}
+
+.modal {
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-background);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Header */
+.header {
+  padding: 1.5rem;
+  border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.1) 0%, 
+    rgba(142, 68, 173, 0.1) 100%);
+  position: relative;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--color-primary) 0%, 
+    var(--color-accent) 50%, 
+    var(--color-secondary) 100%);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton {
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memoryInfo {
+  padding: 1rem;
+  background: rgba(253, 242, 233, 0.05);
+  border: 1px solid rgba(189, 195, 199, 0.2);
+  border-radius: 8px;
+}
+
+.memoryTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.photoCount {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+/* Upload Section */
+.uploadSection {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(189, 195, 199, 0.2);
+}
+
+.dropZone {
+  border: 2px dashed var(--color-text-secondary);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background: rgba(253, 242, 233, 0.02);
+}
+
+.dropZone:hover {
+  border-color: var(--color-primary);
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.dropZone.uploading {
+  border-color: var(--color-accent);
+  background: rgba(241, 196, 15, 0.1);
+  cursor: not-allowed;
+}
+
+.dropZoneContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.uploadIcon {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+.uploadText {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.uploadHint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* Error Display */
+.error {
+  margin: 1rem 1.5rem;
+  padding: 0.75rem;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 8px;
+  color: #e74c3c;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.errorClose {
+  color: #e74c3c;
+  padding: 0.25rem;
+  min-width: auto;
+  min-height: auto;
+}
+
+/* Loading */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-secondary);
+}
+
+.emptyState p {
+  margin: 0 0 0.5rem 0;
+}
+
+.emptyHint {
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+/* Gallery */
+.gallery {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  min-height: 300px;
+}
+
+.gallery::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gallery::-webkit-scrollbar-track {
+  background: rgba(189, 195, 199, 0.1);
+  border-radius: 4px;
+}
+
+.gallery::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+.gallery::-webkit-scrollbar-thumb:hover {
+  background: #e55a2b;
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+/* Photo Thumbnail */
+.thumbnail {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+  border-color: var(--color-primary);
+}
+
+.thumbnail.selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 16px rgba(241, 196, 15, 0.4);
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+}
+
+.thumbnail:hover .thumbnailImage {
+  transform: scale(1.05);
+}
+
+.thumbnailOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.thumbnail:hover .thumbnailOverlay {
+  opacity: 1;
+}
+
+.deleteButton {
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  border: none;
+}
+
+.deleteButton:hover {
+  background: #e74c3c;
+  transform: scale(1.1);
+}
+
+.selectionIndicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--color-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--color-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+.footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(189, 195, 199, 0.2);
+  background: rgba(253, 242, 233, 0.02);
+}
+
+.footerActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Photo Viewer */
+.photoViewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2200;
+  cursor: pointer;
+}
+
+.photoViewerContent {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.photoViewerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(44, 62, 80, 0.9);
+  border-radius: 8px 8px 0 0;
+}
+
+.photoCounter {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.photoViewerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.viewerDeleteButton {
+  color: #e74c3c;
+}
+
+.viewerDeleteButton:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.photoContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  min-height: 400px;
+}
+
+.fullPhoto {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.photoViewerControls {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(44, 62, 80, 0.9);
+  border-radius: 0 0 8px 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .overlay {
+    padding: 1rem;
+  }
+  
+  .modal {
+    max-width: 100%;
+  }
+  
+  .header {
+    padding: 1rem;
+  }
+  
+  .uploadSection {
+    padding: 1rem;
+  }
+  
+  .gallery {
+    padding: 1rem;
+  }
+  
+  .footer {
+    padding: 1rem;
+  }
+  
+  .photoGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .dropZone {
+    padding: 1.5rem;
+  }
+  
+  .uploadIcon {
+    font-size: 2rem;
+  }
+  
+  .uploadText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .photoGrid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .photoViewerContent {
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+  
+  .photoViewerHeader,
+  .photoViewerControls {
+    padding: 0.75rem;
+  }
+  
+  .photoViewerControls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Focus styles for accessibility */
+.thumbnail:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.dropZone:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Cultural decorative elements */
+.thumbnail::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: 8px;
+  background: linear-gradient(45deg, 
+    var(--color-primary) 0%, 
+    var(--color-accent) 50%, 
+    var(--color-secondary) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  z-index: -1;
+}
+
+.thumbnail:hover::before,
+.thumbnail.selected::before {
+  opacity: 0.3;
+}
+
+/* Animation for photo loading */
+@keyframes photoLoad {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.thumbnailImage {
+  animation: photoLoad 0.3s ease-out;
+}
+
+.fullPhoto {
+  animation: photoLoad 0.2s ease-out;
+}

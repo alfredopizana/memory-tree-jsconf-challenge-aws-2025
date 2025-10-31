@@ -1,0 +1,1 @@
+export { useAltarLayout } from './useAltarLayout';
