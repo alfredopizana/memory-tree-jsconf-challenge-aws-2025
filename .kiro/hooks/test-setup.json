@@ -1,0 +1,19 @@
+{
+  "name": "Auto-create test files",
+  "description": "Automatically create corresponding test files when implementation files are created",
+  "trigger": {
+    "type": "file_created",
+    "pattern": "src/**/*.{ts,tsx}",
+    "exclude": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"]
+  },
+  "action": {
+    "type": "agent_execution",
+    "prompt": "A new implementation file has been created at {{file_path}}. Please create a corresponding test file following these guidelines:\n\n1. Create the test file in the same directory with .test.{ts,tsx} extension\n2. Import the component/function being tested\n3. Set up basic test structure with describe block\n4. Include at least one basic rendering/functionality test\n5. Use React Testing Library for component tests\n6. Use Vitest for utility function tests\n7. Follow the existing test patterns in the project\n\nFor components, test:\n- Basic rendering without errors\n- Props are handled correctly\n- Key user interactions work\n\nFor utilities/services:\n- Core functionality works as expected\n- Error cases are handled\n- Edge cases are covered\n\nKeep tests focused and minimal - test behavior, not implementation details.",
+    "context": [
+      "{{file_path}}",
+      "src/**/*.test.{ts,tsx}",
+      "src/**/*.spec.{ts,tsx}"
+    ]
+  },
+  "enabled": false
+}

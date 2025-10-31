@@ -1,0 +1,18 @@
+{
+  "name": "Pre-commit linting and formatting",
+  "description": "Run linting and formatting checks before git commits",
+  "trigger": {
+    "type": "git_pre_commit"
+  },
+  "action": {
+    "type": "agent_execution",
+    "prompt": "A git commit is about to be made. Please run linting and formatting on all staged files to ensure code quality:\n\n1. Run ESLint on all staged TypeScript/JavaScript files\n2. Run Prettier to format all staged files\n3. Check for TypeScript compilation errors\n4. Verify that all imports are properly organized\n5. Ensure consistent code style across the project\n\nIf any issues are found:\n- Fix auto-fixable linting issues\n- Format code with Prettier\n- Report any remaining issues that need manual attention\n- Stage the fixed files automatically\n\nCommands to run:\n- `npm run lint:fix` or `yarn lint:fix`\n- `npm run format` or `yarn format`\n- `npm run type-check` or `yarn type-check`\n\nOnly proceed with commit if all checks pass or issues are resolved.",
+    "context": [
+      "package.json",
+      ".eslintrc.*",
+      ".prettierrc.*",
+      "tsconfig.json"
+    ]
+  },
+  "enabled": true
+}
