@@ -1,0 +1,24 @@
+{
+  "name": "Commit Task 3 - IndexedDB Storage",
+  "description": "Commit the completed IndexedDB storage layer and repositories (Task 3)",
+  "trigger": {
+    "type": "manual",
+    "button_text": "📦 Commit Storage Layer"
+  },
+  "action": {
+    "type": "agent_execution",
+    "prompt": "Task 3 (IndexedDB storage layer and repositories) has been completed. Please commit all related files with proper linting and formatting:\n\n**Files to commit for Task 3:**\n- `src/repositories/database.ts` - Main database configuration with Dexie\n- `src/repositories/migrations.ts` - Database migration utilities\n- `src/repositories/BaseRepository.ts` - Base repository interface and errors\n- `src/repositories/FamilyMemberRepository.ts` - Family member CRUD operations\n- `src/repositories/MemoryRepository.ts` - Memory management with associations\n- `src/repositories/ImageRepository.ts` - Image blob storage and retrieval\n- `src/repositories/RelationshipRepository.ts` - Relationship validation and management\n- `src/repositories/AltarStateRepository.ts` - Altar layout persistence\n- `src/repositories/index.ts` - Repository exports and singletons\n- `src/utils/index.ts` - Updated with generateId and utility functions\n- `src/types/validation.ts` - Data validation services\n- `src/types/utils.ts` - Data transformation utilities\n- `src/types/__tests__/types.test.ts` - Updated tests\n- `.kiro/specs/dia-muertos-memory-tree/tasks.md` - Updated task status\n\n**Pre-commit steps:**\n1. **Lint and fix issues:**\n   ```bash\n   npm run lint -- --fix\n   ```\n\n2. **Verify TypeScript compilation:**\n   ```bash\n   npm run build\n   ```\n\n3. **Run tests to ensure nothing is broken:**\n   ```bash\n   npm test\n   ```\n\n4. **Stage the files:**\n   ```bash\n   git add src/repositories/ src/utils/index.ts src/types/validation.ts src/types/utils.ts src/types/__tests__/types.test.ts .kiro/specs/dia-muertos-memory-tree/tasks.md\n   ```\n\n5. **Commit with descriptive message:**\n   ```bash\n   git commit -m \"feat: implement task 3 - IndexedDB storage layer and repositories\n   \n   ✅ Completed task 3: Create IndexedDB storage layer and repositories\n   📦 Added comprehensive data access layer with Dexie integration\n   🔧 Implemented 5 repository classes with full CRUD operations\n   ✨ Added data validation, error handling, and business logic\n   🎨 Follows Día de los Muertos cultural guidelines\n   \n   Key implementations:\n   - Database schema with proper indexing and relationships\n   - Migration system with backup/restore capabilities\n   - Family member management with altar positioning\n   - Memory storage with photo associations\n   - Image blob storage with resizing and cleanup\n   - Relationship validation with business rules\n   - Altar state persistence with decoration management\n   \n   Requirements addressed: 1.2, 1.5, 2.5, 4.4, 5.5\n   \n   Co-authored-by: Kiro AI Assistant <kiro@example.com>\"\n   ```\n\n**Success criteria:**\n- All files compile without TypeScript errors\n- ESLint passes with no remaining issues\n- Tests continue to pass\n- Commit includes only task 3 related files\n- Commit message follows conventional commit format\n- Cultural guidelines are respected in implementation\n\n**If errors occur:**\n- Fix any linting issues that can't be auto-fixed\n- Resolve TypeScript compilation errors\n- Update tests if needed\n- Report any issues that need manual attention\n\nAfter successful commit, provide:\n- Commit hash\n- List of committed files\n- Confirmation that task 3 is now tracked in git history",
+    "context": [
+      "src/repositories/",
+      "src/utils/index.ts",
+      "src/types/validation.ts",
+      "src/types/utils.ts",
+      "src/types/__tests__/types.test.ts",
+      ".kiro/specs/dia-muertos-memory-tree/tasks.md",
+      "package.json",
+      "tsconfig.json"
+    ]
+  },
+  "enabled": true,
+  "category": "git"
+}

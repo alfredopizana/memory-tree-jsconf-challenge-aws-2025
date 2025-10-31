@@ -1,0 +1,25 @@
+{
+  "name": "Auto-commit on Task Completion",
+  "description": "Automatically commit files when a task status changes to 'completed'",
+  "trigger": {
+    "type": "file_change",
+    "patterns": [
+      ".kiro/specs/*/tasks.md"
+    ],
+    "condition": "file_contains_pattern",
+    "pattern": "\\[x\\].*completed"
+  },
+  "action": {
+    "type": "agent_execution",
+    "prompt": "A task has been marked as completed in the tasks.md file. Please automatically commit the related files:\n\n**Step 1: Parse the completed task**\n- Read the updated tasks.md file\n- Identify which task was just marked as completed\n- Extract task number, title, and any subtasks\n\n**Step 2: Determine files to commit**\nBased on the task number, include these files:\n\n**Task 3 - IndexedDB Storage Layer:**\n- `src/repositories/database.ts`\n- `src/repositories/migrations.ts`\n- `src/repositories/BaseRepository.ts`\n- `src/repositories/FamilyMemberRepository.ts`\n- `src/repositories/MemoryRepository.ts`\n- `src/repositories/ImageRepository.ts`\n- `src/repositories/RelationshipRepository.ts`\n- `src/repositories/AltarStateRepository.ts`\n- `src/repositories/index.ts`\n- `src/utils/index.ts`\n- `src/types/validation.ts`\n- `src/types/utils.ts`\n- `src/types/__tests__/types.test.ts`\n\n**Task 4 - React Components:**\n- `src/components/**/*.tsx`\n- `src/hooks/use*.ts`\n- `src/pages/**/*.tsx`\n- Component-related test files\n\n**Task 5 - Drag & Drop:**\n- `src/components/dnd/**/*.tsx`\n- `src/contexts/DragDropContext.tsx`\n- `src/hooks/useDrag*.ts`\n- `src/hooks/useDrop*.ts`\n\n**Always include:**\n- `.kiro/specs/*/tasks.md` (the updated tasks file)\n\n**Step 3: Quality assurance**\n- Run `npm run lint -- --fix` to fix any auto-fixable issues\n- Run `npm run build` to ensure TypeScript compilation\n- Fix any remaining errors before committing\n\n**Step 4: Commit process**\n1. Stage only the files related to the completed task\n2. Generate commit message:\n   ```\n   feat: complete task [X.Y] - [Task Title]\n   \n   ✅ Implemented [brief description]\n   📁 Files: [list key files]\n   🎯 Requirements: [reference requirement IDs]\n   🎨 Follows Día de los Muertos cultural guidelines\n   \n   Task details:\n   - [Bullet point of what was implemented]\n   - [Any technical decisions made]\n   - [Testing or validation performed]\n   ```\n3. Execute the commit\n4. Report success with commit hash\n\n**Error handling:**\n- If linting fails, attempt to fix and retry once\n- If build fails, report errors and do not commit\n- If git commit fails, report the issue\n- Always provide clear feedback on what happened\n\n**Cultural compliance:**\n- Ensure all implementations respect Día de los Muertos traditions\n- Verify color schemes use traditional palette\n- Check that Spanish terminology is used appropriately\n- Confirm decorative elements are culturally accurate",
+    "context": [
+      ".kiro/specs/*/tasks.md",
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "package.json",
+      "tsconfig.json"
+    ]
+  },
+  "enabled": true,
+  "category": "automation"
+}

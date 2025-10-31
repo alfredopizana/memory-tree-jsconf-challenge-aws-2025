@@ -1,0 +1,23 @@
+{
+  "name": "Task Completion Commit",
+  "description": "Automatically commit files when a task is completed with proper linting and formatting",
+  "trigger": {
+    "type": "manual",
+    "button_text": "Commit Completed Task"
+  },
+  "action": {
+    "type": "agent_execution",
+    "prompt": "A task has been completed and needs to be committed to git. Please perform the following steps:\n\n1. **Identify the completed task:**\n   - Read the tasks.md file from the current spec\n   - Find the most recently completed task (status: completed)\n   - Extract the task number and title\n\n2. **Gather task-related files:**\n   - For task 3 (IndexedDB storage): Include all repository files, database files, migrations, and related utilities\n   - For task 4 (React components): Include component files, hooks, and related UI files\n   - For task 5 (Drag & drop): Include DnD components, context providers, and interaction handlers\n   - Always include the updated tasks.md file\n\n3. **Run quality checks:**\n   - Execute `npm run lint` to check for linting issues\n   - Run `npm run lint -- --fix` to auto-fix any fixable issues\n   - Execute TypeScript compilation check with `npm run build`\n   - If there are any errors, fix them before proceeding\n\n4. **Format and stage files:**\n   - Format all files with consistent styling\n   - Add all task-related files to git staging area\n   - Verify that no unrelated files are included\n\n5. **Create meaningful commit:**\n   - Generate a commit message following this format:\n     ```\n     feat: implement task X.Y - [Task Title]\n     \n     - Completed task X.Y: [Full task description]\n     - [Brief description of what was implemented]\n     - [Any notable technical decisions or patterns used]\n     - Follows project coding standards and cultural guidelines\n     \n     Co-authored-by: Kiro AI Assistant <kiro@example.com>\n     ```\n   - Commit the staged files with the generated message\n\n6. **Provide summary:**\n   - Report the commit hash\n   - List all files that were committed\n   - Mention any issues that were fixed during the process\n   - Confirm that the task is properly tracked in git history\n\n**File mapping for tasks:**\n- Task 3 (Storage): `src/repositories/`, `src/utils/index.ts`, `src/types/validation.ts`, `src/types/utils.ts`\n- Task 4 (Components): `src/components/`, `src/hooks/`, `src/pages/`\n- Task 5 (Drag & Drop): `src/components/dnd/`, `src/contexts/`, `src/hooks/useDrag*`\n- Always include: `.kiro/specs/*/tasks.md`\n\n**Quality standards:**\n- All TypeScript files must compile without errors\n- ESLint rules must pass (auto-fix when possible)\n- Consistent formatting throughout\n- Proper import organization\n- No console.log statements in production code\n- Follow React TypeScript standards from steering rules",
+    "context": [
+      ".kiro/specs/*/tasks.md",
+      "package.json",
+      ".eslintrc.*",
+      ".prettierrc.*",
+      "tsconfig.json",
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ]
+  },
+  "enabled": true,
+  "category": "git"
+}
