@@ -1,5 +1,20 @@
 /* Family Member Editor Styles - Día de los Muertos Theme */
 
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(44, 62, 80, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
 .familyMemberEditor {
   background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
   border: 2px solid #FF6B35;
@@ -9,6 +24,10 @@
     0 12px 40px rgba(255, 107, 53, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
+  max-width: 800px;
+  max-height: 90vh;
+  width: 100%;
+  overflow-y: auto;
 }
 
 .familyMemberEditor::before {
@@ -27,6 +46,19 @@
   margin-bottom: 24px;
 }
 
+.headerActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
 .title {
   color: #FDF2E9;
   font-size: 1.5rem;
@@ -41,7 +73,7 @@
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 4px;
-  margin-bottom: 20px;
+  flex: 1;
 }
 
 .modeButton {

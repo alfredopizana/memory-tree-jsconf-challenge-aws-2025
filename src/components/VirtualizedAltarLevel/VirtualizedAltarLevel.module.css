@@ -1,0 +1,299 @@
+/* Virtualized Altar Level Styles */
+
+.virtualizedAltarLevel {
+  position: relative;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.95), rgba(142, 68, 173, 0.1));
+  border: 2px solid rgba(241, 196, 15, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.levelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(241, 196, 15, 0.2);
+}
+
+.levelTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #FDF2E9);
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.memberCount {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary, rgba(253, 242, 233, 0.8));
+  background: rgba(255, 107, 53, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.membersContainer {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(241, 196, 15, 0.5) rgba(44, 62, 80, 0.3);
+}
+
+.membersContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.membersContainer::-webkit-scrollbar-track {
+  background: rgba(44, 62, 80, 0.3);
+  border-radius: 4px;
+}
+
+.membersContainer::-webkit-scrollbar-thumb {
+  background: rgba(241, 196, 15, 0.5);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.membersContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(241, 196, 15, 0.7);
+}
+
+.membersGrid {
+  position: relative;
+  width: 100%;
+}
+
+.visibleMembers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.memberSlot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.memberSlot:hover {
+  transform: translateY(-2px);
+}
+
+/* Empty state */
+.emptyLevel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.emptyMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.7;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  filter: grayscale(50%);
+}
+
+.emptyText {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary, rgba(253, 242, 233, 0.8));
+  margin: 0;
+  font-style: italic;
+}
+
+/* Performance info (development only) */
+.performanceInfo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #00ff00;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.7rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .visibleMembers {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .virtualizedAltarLevel {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .levelHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .levelTitle {
+    font-size: 1.2rem;
+  }
+  
+  .memberCount {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+  }
+  
+  .visibleMembers {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .memberSlot {
+    min-height: 100px;
+  }
+  
+  .emptyLevel {
+    min-height: 150px;
+    padding: 1rem;
+  }
+  
+  .emptyIcon {
+    font-size: 2rem;
+  }
+  
+  .emptyText {
+    font-size: 1rem;
+  }
+  
+  .performanceInfo {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .virtualizedAltarLevel {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .levelTitle {
+    font-size: 1.1rem;
+  }
+  
+  .membersContainer {
+    height: 300px !important; /* Override inline styles on mobile */
+  }
+  
+  .visibleMembers {
+    padding: 0.25rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .virtualizedAltarLevel {
+    border-color: currentColor;
+    background: var(--color-background, #2C3E50);
+  }
+  
+  .levelHeader {
+    border-bottom-color: currentColor;
+  }
+  
+  .memberCount {
+    border-color: currentColor;
+  }
+  
+  .membersContainer::-webkit-scrollbar-thumb {
+    background: currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .memberSlot {
+    transition: none;
+  }
+  
+  .memberSlot:hover {
+    transform: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .virtualizedAltarLevel {
+    background: white;
+    border: 2px solid black;
+    break-inside: avoid;
+  }
+  
+  .membersContainer {
+    overflow: visible;
+    height: auto !important;
+  }
+  
+  .performanceInfo {
+    display: none;
+  }
+  
+  .memberSlot {
+    break-inside: avoid;
+  }
+}
+
+/* Focus management for accessibility */
+.membersContainer:focus-within {
+  outline: 2px solid var(--color-primary, #FF6B35);
+  outline-offset: 2px;
+}
+
+/* Loading state for virtualized items */
+.memberSlot[data-loading="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.memberSlot[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(241, 196, 15, 0.3);
+  border-top: 2px solid var(--color-accent, #F1C40F);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

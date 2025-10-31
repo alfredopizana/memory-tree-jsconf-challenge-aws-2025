@@ -6,6 +6,11 @@ export { Grid } from './Grid';
 export { Layout, Container } from './Layout';
 export { Loading } from './Loading';
 export { ErrorBoundary } from './ErrorBoundary';
+export { LoadingState, Skeleton, InlineLoading, LoadingOverlay } from './LoadingStates/LoadingStates';
+export { OfflineIndicator, useOfflineStatus, withOfflineSupport } from './OfflineIndicator/OfflineIndicator';
+export { OptimizedFamilyMemberCard } from './OptimizedFamilyMemberCard/OptimizedFamilyMemberCard';
+export { VirtualizedAltarLevel } from './VirtualizedAltarLevel/VirtualizedAltarLevel';
+export { OptimizedImage, useBatchImageOptimization } from './OptimizedImage/OptimizedImage';
 
 // Feature component exports
 export { FamilyMemberCard } from './FamilyMemberCard';
@@ -39,6 +44,11 @@ export type { CardProps } from './Card';
 export type { GridProps } from './Grid';
 export type { LayoutProps, ContainerProps } from './Layout';
 export type { LoadingProps } from './Loading';
+export type { LoadingStateProps, SkeletonProps, InlineLoadingProps, LoadingOverlayProps } from './LoadingStates/LoadingStates';
+export type { OfflineIndicatorProps } from './OfflineIndicator/OfflineIndicator';
+export type { OptimizedFamilyMemberCardProps } from './OptimizedFamilyMemberCard/OptimizedFamilyMemberCard';
+export type { VirtualizedAltarLevelProps } from './VirtualizedAltarLevel/VirtualizedAltarLevel';
+export type { OptimizedImageProps } from './OptimizedImage/OptimizedImage';
 export type { FamilyMemberCardProps } from './FamilyMemberCard';
 export type { FamilyMemberFormProps } from './FamilyMemberForm';
 export type { FamilyMemberEditorProps } from './FamilyMemberEditor';

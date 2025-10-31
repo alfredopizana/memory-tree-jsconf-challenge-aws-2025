@@ -1,7 +1,7 @@
 import './App.css'
-import { Button, Card, Grid, Layout, Container, Loading, FamilyMemberCard, DecorationElement, AltarInterface } from './components'
+import { Button, Card, Grid, Layout, Container, Loading, FamilyMemberCard, DecorationElement, AltarInterface, ErrorBoundary, OfflineIndicator, FamilyMemberEditor } from './components'
 import { FamilyMember, DecorationElement as DecorationData } from './types'
-import { DragDropProvider, AppStateProvider, UndoRedoProvider, SynchronizationProvider } from './contexts'
+import { DragDropProvider, AccessibilityProvider } from './contexts'
 import { CustomDragLayer } from './components/DragLayer/CustomDragLayer'
 import { useState } from 'react'
 
@@ -71,7 +71,9 @@ const initialDecorations: DecorationData[] = [
 function App(): JSX.Element {
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>(initialMembers);
   const [decorations, setDecorations] = useState<DecorationData[]>(initialDecorations);
-  const [showDemo, setShowDemo] = useState(false);
+  const [showDemo, setShowDemo] = useState(true); // Start with altar demo
+  const [editingMember, setEditingMember] = useState<FamilyMember | null>(null);
+  const [showMemberEditor, setShowMemberEditor] = useState(false);
 
   const handleMemberMove = (member: FamilyMember, newLevel: number, newOrder: number) => {
     setFamilyMembers(prev => 
@@ -104,75 +106,157 @@ function App(): JSX.Element {
     setDecorations(prev => [...prev, newDecoration]);
   };
 
+  const handleMemberEdit = (member: FamilyMember) => {
+    setEditingMember(member);
+    setShowMemberEditor(true);
+  };
+
+  const handleMemberSave = (updatedMember: FamilyMember) => {
+    setFamilyMembers(prev => 
+      prev.map(m => 
+        m.id === updatedMember.id 
+          ? { ...updatedMember, updatedAt: new Date() }
+          : m
+      )
+    );
+    setShowMemberEditor(false);
+    setEditingMember(null);
+  };
+
+  const handleMemberCreate = () => {
+    const newMember: FamilyMember = {
+      id: `member-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      name: '',
+      preferredName: '',
+      dateOfBirth: new Date(),
+      photos: [],
+      generation: 1,
+      altarPosition: { level: 3, order: familyMembers.length },
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    setEditingMember(newMember);
+    setShowMemberEditor(true);
+  };
+
+  const handleMemberDelete = (memberId: string) => {
+    setFamilyMembers(prev => prev.filter(m => m.id !== memberId));
+  };
+
+  const handleDecorationSelect = (decorationId: string) => {
+    console.log('Selected decoration:', decorationId);
+    // Could implement decoration editing here
+  };
+
   return (
-    <DragDropProvider>
-      <Layout variant="altar">
-        <Container>
-          <div className="App">
-            <header className="App-header">
-              <h1>Día de los Muertos Memory Tree</h1>
-              <p>Family memory altar application with drag & drop functionality</p>
-              
-              <div style={{ margin: '1rem 0' }}>
-                <Button 
-                  variant={showDemo ? "secondary" : "primary"}
-                  onClick={() => setShowDemo(!showDemo)}
-                >
-                  {showDemo ? "Show Components Demo" : "Show Altar Demo"}
-                </Button>
-              </div>
-            </header>
-            
-            <main style={{ padding: '2rem 0' }}>
-              {showDemo ? (
-                <AltarInterface
-                  familyMembers={familyMembers}
-                  decorations={decorations}
-                  onMemberMove={handleMemberMove}
-                  onDecorationMove={handleDecorationMove}
-                  onDecorationAdd={handleDecorationAdd}
-                  onMemberEdit={(member: FamilyMember) => console.log('Edit member:', member)}
-                  onMemberViewMemories={(memberId: string) => console.log('View memories for:', memberId)}
-                  onMemberSelect={(memberId: string) => console.log('Selected member:', memberId)}
-                  onDecorationSelect={(decorationId: string) => console.log('Selected decoration:', decorationId)}
-                />
-              ) : (
-                <Grid columns={3} gap="large">
-                  <Card variant="cultural" padding="medium">
-                    <h3>Base Components</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                      <Button variant="primary">Primary Button</Button>
-                      <Button variant="secondary">Secondary Button</Button>
-                      <Button variant="accent">Accent Button</Button>
-                      <Loading variant="cultural" text="Cargando..." />
-                    </div>
-                  </Card>
+    <ErrorBoundary culturalContext={true}>
+      <AccessibilityProvider>
+        <DragDropProvider>
+          <Layout variant="altar">
+            <Container>
+              <OfflineIndicator culturalContext={true} />
+              <div className="App">
+                <header className="App-header">
+                  <h1 id="main-content">Día de los Muertos Memory Tree</h1>
+                  <p>Aplicación de altar familiar con funcionalidad de arrastrar y soltar</p>
                   
-                  <Card variant="elevated" padding="medium">
-                    <h3>Family Member Card</h3>
-                    <FamilyMemberCard 
-                      member={initialMembers[0]!}
-                      showDetails={true}
+                  <div style={{ margin: '1rem 0', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    <Button 
+                      variant={showDemo ? "secondary" : "primary"}
+                      onClick={() => setShowDemo(!showDemo)}
+                      aria-describedby="demo-toggle-description"
+                    >
+                      {showDemo ? "Mostrar Demo de Componentes" : "Mostrar Altar Familiar"}
+                    </Button>
+                    
+                    {showDemo && (
+                      <Button 
+                        variant="accent"
+                        onClick={handleMemberCreate}
+                        aria-label="Crear nuevo miembro de familia"
+                      >
+                        ➕ Añadir Familiar
+                      </Button>
+                    )}
+                    
+                    <div id="demo-toggle-description" className="sr-only">
+                      Alterna entre la vista del altar interactivo y la demostración de componentes individuales
+                    </div>
+                  </div>
+                </header>
+                
+                <main style={{ padding: '2rem 0' }} role="main" aria-label="Contenido principal de la aplicación">
+                  {showDemo ? (
+                    <AltarInterface
+                      familyMembers={familyMembers}
+                      decorations={decorations}
+                      onMemberMove={handleMemberMove}
+                      onDecorationMove={handleDecorationMove}
+                      onDecorationAdd={handleDecorationAdd}
+                      onMemberEdit={handleMemberEdit}
+                      onMemberViewMemories={(memberId: string) => console.log('View memories for:', memberId)}
+                      onMemberSelect={(memberId: string) => console.log('Selected member:', memberId)}
+                      onDecorationSelect={handleDecorationSelect}
                     />
-                  </Card>
-                  
-                  <Card variant="outlined" padding="medium">
-                    <h3>Decorations</h3>
-                    <div style={{ position: 'relative', height: '200px', background: 'rgba(0,0,0,0.1)', borderRadius: '8px' }}>
-                      <DecorationElement 
-                        decoration={initialDecorations[0]!}
-                        isSelected={true}
-                      />
-                    </div>
-                  </Card>
-                </Grid>
-              )}
-            </main>
-          </div>
-        </Container>
-      </Layout>
-      <CustomDragLayer />
-    </DragDropProvider>
+                  ) : (
+                    <Grid columns={3} gap="large">
+                      <Card variant="cultural" padding="medium">
+                        <h3>Componentes Base</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                          <Button variant="primary">Botón Primario</Button>
+                          <Button variant="secondary">Botón Secundario</Button>
+                          <Button variant="accent">Botón de Acento</Button>
+                          <Loading variant="cultural" text="Cargando..." />
+                        </div>
+                      </Card>
+                      
+                      <Card variant="elevated" padding="medium">
+                        <h3>Tarjeta de Miembro Familiar</h3>
+                        <FamilyMemberCard 
+                          member={initialMembers[0]!}
+                          showDetails={true}
+                        />
+                      </Card>
+                      
+                      <Card variant="outlined" padding="medium">
+                        <h3>Decoraciones</h3>
+                        <div style={{ position: 'relative', height: '200px', background: 'rgba(0,0,0,0.1)', borderRadius: '8px' }}>
+                          <DecorationElement 
+                            decoration={initialDecorations[0]!}
+                            isSelected={true}
+                          />
+                        </div>
+                      </Card>
+                    </Grid>
+                  )}
+                </main>
+              </div>
+            </Container>
+          </Layout>
+          <CustomDragLayer />
+          
+          {/* Family Member Editor Modal */}
+          {showMemberEditor && editingMember && (
+            <FamilyMemberEditor
+              member={editingMember}
+              isOpen={showMemberEditor}
+              onSave={handleMemberSave}
+              onCancel={() => {
+                setShowMemberEditor(false);
+                setEditingMember(null);
+              }}
+              {...(editingMember.name && {
+                onDelete: () => {
+                  handleMemberDelete(editingMember.id);
+                  setShowMemberEditor(false);
+                  setEditingMember(null);
+                }
+              })}
+            />
+          )}
+        </DragDropProvider>
+      </AccessibilityProvider>
+    </ErrorBoundary>
   )
 }
 

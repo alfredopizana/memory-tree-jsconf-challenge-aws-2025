@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { FamilyMember } from '../../types';
 import { Card } from '../Card';
 import { ItemTypes, DraggedFamilyMember } from '../../contexts/DragDropContext';
+import { useAnnouncer, useDragDropAccessibility } from '../../contexts/AccessibilityContext';
+import { generateAriaLabels } from '../../utils/accessibility';
 import styles from './FamilyMemberCard.module.css';
 
 export interface FamilyMemberCardProps {
@@ -33,6 +35,11 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Accessibility hooks
+  const { announceFamilyMemberAction } = useAnnouncer();
+  const { makeDraggableAccessible, announceDragStart } = useDragDropAccessibility();
 
   // Set up drag functionality
   const [{ isDragging }, drag, dragPreview] = useDrag<
@@ -49,13 +56,21 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
         sourceOrder: member.altarPosition.order,
       };
       
+      // Announce drag start for accessibility
+      announceDragStart(displayName, 'family-member');
+      
       if (onDragStart) {
         onDragStart(member);
       }
       
       return dragItem;
     },
-    end: (_item, _monitor) => {
+    end: (_item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (dropResult) {
+        announceFamilyMemberAction('Colocado', displayName, dropResult.level);
+      }
+      
       if (onDragEnd) {
         onDragEnd(member);
       }
@@ -72,6 +87,27 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
 
   const isDeceased = !!member.dateOfDeath;
   const displayName = member.preferredName || member.name;
+
+  // Setup accessibility for draggable element
+  useEffect(() => {
+    if (cardRef.current) {
+      makeDraggableAccessible(cardRef.current, {
+        type: 'family-member',
+        name: displayName,
+        onMove: (direction) => {
+          // Handle keyboard-based movement
+          console.log(`Moving ${displayName} ${direction}`);
+          announceFamilyMemberAction(`Moviendo hacia ${direction}`, displayName);
+        },
+        onActivate: () => {
+          if (onSelect) {
+            onSelect(member.id);
+            announceFamilyMemberAction('Seleccionado', displayName);
+          }
+        }
+      });
+    }
+  }, [cardRef.current, displayName, makeDraggableAccessible, onSelect, announceFamilyMemberAction, member.id]);
   const primaryPhoto = member.photos?.[0];
 
   const formatDate = (date: Date) => {
@@ -101,6 +137,7 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
   const handleCardClick = () => {
     if (onSelect) {
       onSelect(member.id);
+      announceFamilyMemberAction('Seleccionado', displayName, member.altarPosition.level);
     }
   };
 
@@ -108,6 +145,7 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
     e.stopPropagation();
     if (onEdit) {
       onEdit(member);
+      announceFamilyMemberAction('Editando información de', displayName);
     }
   };
 
@@ -115,13 +153,26 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
     e.stopPropagation();
     if (onViewMemories) {
       onViewMemories(member.id);
+      announceFamilyMemberAction('Viendo memorias de', displayName);
     }
   };
+
+  // Generate comprehensive ARIA label
+  const ariaLabel = generateAriaLabels.familyMember(
+    displayName, 
+    isDeceased, 
+    member.altarPosition.level
+  );
 
   return (
     <div ref={dragPreview} style={{ opacity: finalIsDragging ? 0.5 : 1 }}>
       <Card
-        ref={drag}
+        ref={(node) => {
+          drag(node);
+          if (cardRef.current !== node) {
+            (cardRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          }
+        }}
         variant="cultural"
         padding="none"
         className={cardClasses}
@@ -129,6 +180,17 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
         hoverable
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        role="button"
+        tabIndex={0}
+        aria-label={ariaLabel}
+        aria-selected={isSelected}
+        aria-describedby={`member-details-${member.id}`}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleCardClick();
+          }
+        }}
       >
       {/* Drag handle */}
       <div 
@@ -178,19 +240,27 @@ export const FamilyMemberCard: React.FC<FamilyMemberCardProps> = ({
 
       {/* Member information */}
       <div className={styles.memberInfo}>
-        <h3 className={styles.memberName}>{displayName}</h3>
-        <p className={styles.lifeSpan}>{getLifeSpan()}</p>
+        <h3 className={styles.memberName} id={`member-name-${member.id}`}>
+          {displayName}
+        </h3>
+        <p className={styles.lifeSpan} aria-label={`Años de vida: ${getLifeSpan()}`}>
+          {getLifeSpan()}
+        </p>
         
         {(isHovered || showDetails) && (
-          <div className={styles.memberDetails}>
+          <div className={styles.memberDetails} id={`member-details-${member.id}`}>
             {member.name !== displayName && (
-              <p className={styles.fullName}>({member.name})</p>
+              <p className={styles.fullName} aria-label={`Nombre completo: ${member.name}`}>
+                ({member.name})
+              </p>
             )}
             <p className={styles.birthDate}>
+              <span className="sr-only">Fecha de </span>
               Nacimiento: {formatDate(member.dateOfBirth)}
             </p>
             {member.dateOfDeath && (
               <p className={styles.deathDate}>
+                <span className="sr-only">Fecha de </span>
                 Fallecimiento: {formatDate(member.dateOfDeath)}
               </p>
             )}
