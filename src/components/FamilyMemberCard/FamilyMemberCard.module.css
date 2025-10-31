@@ -333,27 +333,213 @@
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
   .familyMemberCard {
-    min-width: 160px;
-    max-width: 200px;
+    min-width: 180px;
+    max-width: 220px;
+    border-width: 2px;
   }
   
   .photoFrame {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
+    border-width: 3px;
   }
   
   .memberName {
-    font-size: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.2;
   }
   
   .lifeSpan {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
   
   .memberDetails {
+    font-size: 0.75rem;
+  }
+  
+  .memberInfo {
+    padding: 0.6rem 0.875rem 0.875rem;
+  }
+  
+  .photoSection {
+    padding: 0.875rem 0.875rem 0.6rem;
+  }
+  
+  /* Tablet-optimized drag handle */
+  .dragHandle {
+    top: 6px;
+    right: 6px;
+    padding: 8px;
+    opacity: 0.8;
+  }
+  
+  .familyMemberCard:hover .dragHandle {
+    opacity: 1;
+  }
+  
+  /* Larger touch targets for tablet */
+  .actionButton {
+    width: 38px;
+    height: 38px;
+    font-size: 1.05rem;
+  }
+  
+  .actions {
+    top: 6px;
+    left: 6px;
+  }
+  
+  /* Tablet hover effects */
+  .familyMemberCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+  }
+  
+  /* Enhanced decorative elements for tablet */
+  .marigoldCorner {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .frameDecoration {
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+  }
+  
+  .paperFlower {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .candleLight {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .familyMemberCard {
+    min-width: 140px;
+    max-width: 180px;
+    border-width: 2px;
+  }
+  
+  .photoFrame {
+    width: 80px;
+    height: 80px;
+    border-width: 2px;
+  }
+  
+  .memberName {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+  
+  .lifeSpan {
+    font-size: 0.75rem;
+  }
+  
+  .memberDetails {
+    font-size: 0.65rem;
+  }
+  
+  .memberInfo {
+    padding: 0.4rem 0.75rem 0.75rem;
+  }
+  
+  .photoSection {
+    padding: 0.75rem 0.75rem 0.4rem;
+  }
+  
+  /* Touch-friendly drag handle */
+  .dragHandle {
+    top: 4px;
+    right: 4px;
+    padding: 6px;
+    opacity: 0.7;
+  }
+  
+  .familyMemberCard:hover .dragHandle,
+  .familyMemberCard:active .dragHandle {
+    opacity: 1;
+  }
+  
+  /* Larger touch targets for actions */
+  .actionButton {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  
+  .actions {
+    top: 4px;
+    left: 4px;
+  }
+  
+  /* Touch interaction optimizations */
+  .familyMemberCard {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (max-width: 480px) {
+  .familyMemberCard {
+    min-width: 120px;
+    max-width: 160px;
+  }
+  
+  .photoFrame {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .memberName {
+    font-size: 0.85rem;
+  }
+  
+  .lifeSpan {
     font-size: 0.7rem;
+  }
+  
+  .memberDetails {
+    font-size: 0.6rem;
+  }
+  
+  .memberInfo {
+    padding: 0.3rem 0.5rem 0.5rem;
+  }
+  
+  .photoSection {
+    padding: 0.5rem 0.5rem 0.3rem;
+  }
+  
+  /* Smaller decorative elements for mobile */
+  .marigoldCorner {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .frameDecoration {
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+  }
+  
+  .paperFlower {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .candleLight {
+    width: 8px;
+    height: 8px;
   }
 }

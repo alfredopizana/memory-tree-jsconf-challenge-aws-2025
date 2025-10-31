@@ -35,6 +35,21 @@
   align-items: stretch;
 }
 
+.tablet-split {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Tablet-specific layout adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .tablet-split {
+    grid-template-columns: 1fr 280px;
+    gap: 0.875rem;
+  }
+}
+
 /* Container styles */
 .container {
   width: 100%;
@@ -63,8 +78,11 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar,
+  .tablet-split {
     flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
   
   .padding {

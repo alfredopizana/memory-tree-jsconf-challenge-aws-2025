@@ -1,7 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { FamilyMember, DecorationElement, DecorationType } from '../../types';
 import { AltarLevel } from '../AltarLevel/AltarLevel';
+import { MobileNavigation } from '../MobileNavigation/MobileNavigation';
+import { TouchGestureHandler } from '../TouchGestureHandler/TouchGestureHandler';
+import { KeyboardShortcutsHelp } from '../KeyboardShortcutsHelp/KeyboardShortcutsHelp';
 import { useAltarLayout } from '../../hooks/useAltarLayout';
+import { useKeyboardShortcuts, createCommonShortcuts, createAltarShortcuts } from '../../hooks/useKeyboardShortcuts';
 import styles from './AltarInterface.module.css';
 
 export interface AltarInterfaceProps {
@@ -85,6 +89,11 @@ export const AltarInterface: React.FC<AltarInterfaceProps> = ({
   className = '',
 }) => {
   const [selectedDecorationType, setSelectedDecorationType] = useState<DecorationType | null>(null);
+  const [showMobileDecorations, setShowMobileDecorations] = useState(false);
+  const [showMobileMemories, setShowMobileMemories] = useState(false);
+  const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [focusedLevel, setFocusedLevel] = useState<number | null>(null);
   
   // Use the altar layout hook for persistence and state management
   const {
@@ -158,6 +167,39 @@ export const AltarInterface: React.FC<AltarInterfaceProps> = ({
     setSelectedDecorationType(null);
   }, [altarId, hookAddDecoration, propOnDecorationAdd]);
 
+  // Keyboard shortcuts setup
+  const commonShortcuts = createCommonShortcuts({
+    save: () => console.log('Save altar'),
+    undo: () => console.log('Undo'),
+    redo: () => console.log('Redo'),
+    delete: () => {
+      if (selectedMemberId) {
+        console.log('Delete member:', selectedMemberId);
+        setSelectedMemberId(null);
+      }
+    },
+    newItem: () => console.log('Add new family member'),
+    help: () => setShowKeyboardHelp(!showKeyboardHelp),
+  });
+
+  const altarShortcuts = createAltarShortcuts({
+    toggleDecorations: () => setShowMobileDecorations(!showMobileDecorations),
+    toggleMemories: () => setShowMobileMemories(!showMobileMemories),
+    focusLevel1: () => setFocusedLevel(1),
+    focusLevel2: () => setFocusedLevel(2),
+    focusLevel3: () => setFocusedLevel(3),
+    addDecoration: () => {
+      if (selectedDecorationType && focusedLevel) {
+        handleDecorationAdd(selectedDecorationType, focusedLevel);
+      }
+    },
+    clearDecorations: () => console.log('Clear all decorations'),
+  });
+
+  const allShortcuts = [...commonShortcuts, ...altarShortcuts];
+  
+  useKeyboardShortcuts(allShortcuts, { enabled: true });
+
   // Count decorations by type for display
   const decorationCounts = DECORATION_TYPES.reduce((counts, { type }) => {
     counts[type] = decorations.filter(d => d.type === type).length;
@@ -185,25 +227,32 @@ export const AltarInterface: React.FC<AltarInterfaceProps> = ({
   }
 
   return (
-    <div className={altarClasses}>
-      {/* Altar header */}
-      <div className={styles.altarHeader}>
-        <h2 className={styles.altarTitle}>
-          {altarState?.name || 'Altar de la Memoria Familiar'}
-        </h2>
-        <p className={styles.altarDescription}>
-          Arrastra a los miembros de tu familia a los diferentes niveles del altar tradicional
-        </p>
-        {error && (
-          <div className={styles.errorMessage}>
-            <span className={styles.errorIcon}>⚠️</span>
-            <span>{error}</span>
-          </div>
-        )}
-      </div>
+    <TouchGestureHandler
+      onSwipeLeft={() => setShowMobileDecorations(false)}
+      onSwipeRight={() => setShowMobileDecorations(true)}
+      onSwipeUp={() => setShowMobileMemories(true)}
+      onSwipeDown={() => setShowMobileMemories(false)}
+      className={altarClasses}
+    >
+      <div className={styles.altarContainer}>
+        {/* Altar header */}
+        <div className={styles.altarHeader}>
+          <h2 className={styles.altarTitle}>
+            {altarState?.name || 'Altar de la Memoria Familiar'}
+          </h2>
+          <p className={styles.altarDescription}>
+            Arrastra a los miembros de tu familia a los diferentes niveles del altar tradicional
+          </p>
+          {error && (
+            <div className={styles.errorMessage}>
+              <span className={styles.errorIcon}>⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
+        </div>
 
       {/* Decoration Palette */}
-      <div className={styles.decorationPalette}>
+      <div className={`${styles.decorationPalette} ${showMobileDecorations ? styles.mobileVisible : ''}`}>
         <div className={styles.paletteHeader}>
           <h3 className={styles.paletteTitle}>Decoraciones Tradicionales</h3>
           <p className={styles.paletteDescription}>
@@ -327,6 +376,43 @@ export const AltarInterface: React.FC<AltarInterfaceProps> = ({
         <div className={styles.papelPicado}></div>
         <div className={styles.candleGlow}></div>
       </div>
-    </div>
+
+      {/* Mobile Navigation */}
+      <MobileNavigation
+        onToggleDecorations={() => setShowMobileDecorations(!showMobileDecorations)}
+        onToggleMemories={() => setShowMobileMemories(!showMobileMemories)}
+        onAddMember={() => console.log('Add member')}
+        onSaveAltar={() => console.log('Save altar')}
+        decorationsVisible={showMobileDecorations}
+        memoriesVisible={showMobileMemories}
+      />
+
+      {/* Keyboard Shortcuts Help */}
+      <KeyboardShortcutsHelp
+        shortcuts={allShortcuts}
+        isVisible={showKeyboardHelp}
+        onClose={() => setShowKeyboardHelp(false)}
+      />
+
+      {/* Desktop keyboard hints */}
+      <div className={styles.desktopHints}>
+        <div className={styles.hintItem}>
+          <kbd className={styles.hintKey}>F1</kbd>
+          <span className={styles.hintText}>Ayuda</span>
+        </div>
+        <div className={styles.hintItem}>
+          <kbd className={styles.hintKey}>Ctrl</kbd>
+          <span className={styles.hintPlus}>+</span>
+          <kbd className={styles.hintKey}>S</kbd>
+          <span className={styles.hintText}>Guardar</span>
+        </div>
+        {focusedLevel && (
+          <div className={styles.hintItem}>
+            <span className={styles.hintText}>Nivel {focusedLevel} enfocado</span>
+          </div>
+        )}
+      </div>
+      </div>
+    </TouchGestureHandler>
   );
 };

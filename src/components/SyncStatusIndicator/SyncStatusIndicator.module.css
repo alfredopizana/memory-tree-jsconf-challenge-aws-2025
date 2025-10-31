@@ -1,0 +1,363 @@
+/* Sync Status Indicator Styles */
+.syncIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.syncIndicator.compact {
+  padding: 0.5rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.syncIndicator.detailed {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.syncButton {
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.statusInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.statusIcon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.statusText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.primaryStatus {
+  font-weight: 600;
+  color: var(--color-text-primary, #FDF2E9);
+}
+
+.secondaryStatus {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, rgba(253, 242, 233, 0.7));
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.detailLabel {
+  color: var(--color-text-secondary, rgba(253, 242, 233, 0.8));
+}
+
+.detailValue {
+  font-weight: 500;
+  color: var(--color-text-primary, #FDF2E9);
+}
+
+.lastResult {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.resultStatus {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.conflictInfo {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, rgba(253, 242, 233, 0.7));
+}
+
+/* Status color variants */
+.synced {
+  color: #2ECC71;
+}
+
+.synced .syncIndicator.compact {
+  border-color: rgba(46, 204, 113, 0.3);
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.pending {
+  color: var(--color-accent, #F1C40F);
+}
+
+.pending .syncIndicator.compact {
+  border-color: rgba(241, 196, 15, 0.3);
+  background: rgba(241, 196, 15, 0.1);
+}
+
+.warning {
+  color: #E67E22;
+}
+
+.warning .syncIndicator.compact {
+  border-color: rgba(230, 126, 34, 0.3);
+  background: rgba(230, 126, 34, 0.1);
+}
+
+.offline {
+  color: #E74C3C;
+}
+
+.offline .syncIndicator.compact {
+  border-color: rgba(231, 76, 60, 0.3);
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.paused {
+  color: var(--color-text-secondary, rgba(253, 242, 233, 0.6));
+}
+
+.paused .syncIndicator.compact {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.online {
+  color: #2ECC71;
+}
+
+.error {
+  color: #E74C3C;
+}
+
+.success {
+  color: #2ECC71;
+}
+
+/* Animation for syncing state */
+.syncButton:disabled {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse animation for pending changes */
+.pending .icon {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Hover effects */
+.syncIndicator.compact:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.syncButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* Cultural decorative elements */
+.syncIndicator.detailed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary, #FF6B35) 0%,
+    var(--color-accent, #F1C40F) 50%,
+    var(--color-secondary, #8E44AD) 100%
+  );
+  border-radius: 8px 8px 0 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .syncIndicator.detailed .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .statusInfo {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .controls {
+    justify-content: center;
+  }
+
+  .detailItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .syncIndicator.compact {
+    padding: 0.375rem;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+
+  .syncButton {
+    min-width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .syncIndicator {
+    border-width: 2px;
+  }
+
+  .details,
+  .lastResult {
+    border-width: 2px;
+  }
+
+  .synced,
+  .pending,
+  .warning,
+  .offline,
+  .online,
+  .error,
+  .success {
+    font-weight: bold;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .syncIndicator {
+    transition: none;
+  }
+
+  .syncIndicator.compact:hover {
+    transform: none;
+  }
+
+  .syncButton:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .syncButton:disabled {
+    animation: none;
+  }
+
+  .pending .icon {
+    animation: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.syncButton:focus-visible {
+  outline: 2px solid var(--color-accent, #F1C40F);
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.syncIndicator.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.syncIndicator.loading .icon {
+  animation: spin 1s linear infinite;
+}
+
+/* Tooltip positioning for compact variant */
+.syncIndicator.compact {
+  position: relative;
+}
+
+.syncIndicator.compact::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.syncIndicator.compact:hover::after {
+  opacity: 1;
+}

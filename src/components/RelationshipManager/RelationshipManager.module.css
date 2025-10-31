@@ -1,0 +1,353 @@
+/* Relationship Manager Styles - Día de los Muertos Theme */
+
+.relationshipManager {
+  background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+  border: 2px solid #FF6B35;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 
+    0 8px 32px rgba(255, 107, 53, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.title {
+  color: #FDF2E9;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #BDC3C7;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 107, 53, 0.3);
+  border-top: 3px solid #FF6B35;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error Display */
+.errorList {
+  margin-bottom: 20px;
+}
+
+.error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid #E74C3C;
+  border-radius: 6px;
+  padding: 12px;
+  color: #E74C3C;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* Create Form */
+.createForm {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.formTitle {
+  color: #FDF2E9;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.formGrid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: #FDF2E9;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.select {
+  padding: 10px 12px;
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #FDF2E9;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #FF6B35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+.description {
+  color: #BDC3C7;
+  font-size: 0.85rem;
+  margin: 0;
+  font-style: italic;
+}
+
+.memberList {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.memberOption {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.memberOption:hover {
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.memberOption:last-child {
+  border-bottom: none;
+}
+
+.memberOption input[type="radio"] {
+  margin-right: 12px;
+  accent-color: #FF6B35;
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.memberName {
+  color: #FDF2E9;
+  font-weight: 500;
+}
+
+.memberFullName {
+  color: #BDC3C7;
+  font-size: 0.85rem;
+}
+
+.noMembers {
+  padding: 20px;
+  text-align: center;
+  color: #BDC3C7;
+  font-style: italic;
+  margin: 0;
+}
+
+.formActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Relationships List */
+.relationshipsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px 20px;
+  color: #BDC3C7;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.emptyState p {
+  margin: 8px 0;
+}
+
+.emptyHint {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.relationshipGroup {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.groupTitle {
+  color: #FF6B35;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memberCards {
+  display: grid;
+  gap: 8px;
+}
+
+.memberCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.memberCard:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: #FF6B35;
+}
+
+.memberDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.relationshipLabel {
+  color: #F1C40F;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.deleteButton {
+  padding: 6px 8px;
+  min-width: auto;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.deleteButton:hover {
+  opacity: 1;
+  background: rgba(231, 76, 60, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .relationshipManager {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  
+  .formGrid {
+    gap: 12px;
+  }
+  
+  .formActions {
+    flex-direction: column;
+  }
+  
+  .memberCards {
+    gap: 6px;
+  }
+  
+  .memberCard {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .memberCards {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Accessibility improvements */
+.memberOption:focus-within {
+  background: rgba(255, 107, 53, 0.1);
+  outline: 2px solid #F1C40F;
+  outline-offset: -2px;
+}
+
+.deleteButton:focus {
+  outline: 2px solid #F1C40F;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .relationshipManager {
+    border-width: 3px;
+  }
+  
+  .memberCard {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .memberCard,
+  .memberOption,
+  .deleteButton,
+  .select {
+    transition: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+}

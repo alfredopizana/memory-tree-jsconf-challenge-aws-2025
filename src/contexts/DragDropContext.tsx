@@ -75,8 +75,14 @@ const getBackendOptions = () => {
       enableMouseEvents: true,
       enableTouchEvents: true,
       enableKeyboardEvents: true,
-      delayTouchStart: 200, // Delay to distinguish between scroll and drag
+      delayTouchStart: 150, // Shorter delay for better responsiveness
       delayMouseStart: 0,
+      touchSlop: 5, // Minimum distance to start drag
+      ignoreContextMenu: true, // Prevent context menu on long press
+      scrollAngleRanges: [
+        { start: 30, end: 150 }, // Vertical scroll
+        { start: 210, end: 330 }, // Vertical scroll
+      ],
     };
   }
   return {};

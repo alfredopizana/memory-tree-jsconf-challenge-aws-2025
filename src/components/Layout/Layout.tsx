@@ -3,7 +3,7 @@ import styles from './Layout.module.css';
 
 export interface LayoutProps {
   children: React.ReactNode;
-  variant?: 'default' | 'altar' | 'sidebar';
+  variant?: 'default' | 'altar' | 'sidebar' | 'tablet-split';
   className?: string;
 }
 

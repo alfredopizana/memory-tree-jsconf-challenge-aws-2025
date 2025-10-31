@@ -545,6 +545,55 @@ export class AltarLayoutManager {
   }
 
   /**
+   * Get current altar state (for context integration)
+   * Requirements: 2.5
+   */
+  async getCurrentAltarState(): Promise<AltarState | null> {
+    try {
+      // Get the default altar or the most recently modified one
+      const altars = await this.altarStateRepository.getAll();
+      if (altars.length === 0) {
+        // Create default altar if none exists
+        const defaultAltar: Omit<AltarState, 'id' | 'lastModified'> = {
+          name: 'Mi Altar Familiar',
+          memberPositions: {},
+          decorations: [],
+          backgroundTheme: 'traditional'
+        };
+        const altarId = await this.altarStateRepository.create(defaultAltar);
+        return await this.altarStateRepository.getById(altarId);
+      }
+
+      // Return the most recently modified altar
+      return altars.reduce((latest, current) => 
+        current.lastModified > latest.lastModified ? current : latest
+      );
+
+    } catch (error) {
+      console.error('Failed to get current altar state:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Save altar state (for context integration)
+   * Requirements: 2.5
+   */
+  async saveAltarState(altarState: AltarState): Promise<void> {
+    try {
+      await this.altarStateRepository.update(altarState.id, {
+        name: altarState.name,
+        memberPositions: altarState.memberPositions,
+        decorations: altarState.decorations,
+        backgroundTheme: altarState.backgroundTheme
+      });
+    } catch (error) {
+      console.error('Failed to save altar state:', error);
+      throw new Error('Failed to save altar state');
+    }
+  }
+
+  /**
    * Adjust member orders when inserting at specific position
    * Private helper method
    */

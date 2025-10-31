@@ -252,43 +252,160 @@
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+/* Tablet (medium screens) */
+@media (max-width: 1024px) and (min-width: 769px) {
   .altarLevel {
-    padding: 1rem;
-    margin-bottom: 0.75rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    min-height: 220px;
+    border-radius: 10px;
   }
   
   .levelTitle {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
+    line-height: 1.3;
   }
   
   .membersGrid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
   }
   
   .dropMessage {
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1.25rem;
   }
   
   .dropIcon {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
   
   .dropText {
+    font-size: 0.9rem;
+  }
+  
+  .emptyLevel {
+    min-height: 140px;
+  }
+  
+  .emptyIcon {
+    font-size: 2.25rem;
+  }
+  
+  .emptyText {
+    font-size: 0.95rem;
+  }
+  
+  /* Tablet-specific touch interactions */
+  .altarLevel {
+    touch-action: manipulation;
+  }
+  
+  .memberSlot {
+    transition: transform 0.2s ease;
+  }
+  
+  .memberSlot:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Mobile (small screens) */
+@media (max-width: 768px) {
+  .altarLevel {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    min-height: 180px;
+    border-radius: 8px;
+  }
+  
+  .levelTitle {
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+  
+  .membersGrid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .dropMessage {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .dropIcon {
+    font-size: 1.25rem;
+  }
+  
+  .dropText {
+    font-size: 0.75rem;
+  }
+  
+  .emptyLevel {
+    min-height: 100px;
+  }
+  
+  .emptyIcon {
+    font-size: 1.5rem;
+  }
+  
+  .emptyText {
     font-size: 0.8rem;
+  }
+  
+  /* Touch-friendly interactions */
+  .altarLevel {
+    touch-action: manipulation;
   }
 }
 
 @media (max-width: 480px) {
-  .membersGrid {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+  .altarLevel {
+    padding: 0.5rem;
+    min-height: 160px;
   }
   
   .levelHeader {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .levelTitle {
+    font-size: 1rem;
+  }
+  
+  .membersGrid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .memberSlot {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .emptyLevel {
+    min-height: 80px;
+    border-width: 1px;
+  }
+  
+  .emptyIcon {
+    font-size: 1.25rem;
+  }
+  
+  .emptyText {
+    font-size: 0.75rem;
+  }
+  
+  /* Single-column mobile layout optimizations */
+  .decorativeLine {
+    height: 1px;
+  }
+  
+  .decorativeLine::before,
+  .decorativeLine::after {
+    width: 6px;
+    height: 6px;
+    top: -3px;
   }
 }
 /* Dec

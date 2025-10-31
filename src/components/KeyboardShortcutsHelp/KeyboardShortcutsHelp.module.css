@@ -1,0 +1,353 @@
+.keyboardShortcutsHelp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.helpModal {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 80vh;
+  background: linear-gradient(135deg, 
+    rgba(44, 62, 80, 0.95) 0%, 
+    rgba(142, 68, 173, 0.9) 100%);
+  border: 2px solid var(--color-accent);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.helpHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.2) 0%, 
+    rgba(241, 196, 15, 0.1) 100%);
+  border-bottom: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.helpTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  font-family: 'Georgia', serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(231, 76, 60, 0.2);
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgba(231, 76, 60, 0.4);
+  transform: scale(1.1);
+}
+
+.closeButton:active {
+  transform: scale(0.95);
+}
+
+.closeIcon {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Search section */
+.searchSection {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(189, 195, 199, 0.2);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(241, 196, 15, 0.3);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.2);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-secondary);
+}
+
+/* Shortcuts list */
+.shortcutsList {
+  flex: 1;
+  padding: 1rem 2rem;
+  overflow-y: auto;
+}
+
+.shortcutsList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shortcutsList::-webkit-scrollbar-track {
+  background: rgba(189, 195, 199, 0.1);
+  border-radius: 4px;
+}
+
+.shortcutsList::-webkit-scrollbar-thumb {
+  background: rgba(241, 196, 15, 0.4);
+  border-radius: 4px;
+}
+
+.shortcutsList::-webkit-scrollbar-thumb:hover {
+  background: rgba(241, 196, 15, 0.6);
+}
+
+/* Category sections */
+.shortcutCategory {
+  margin-bottom: 2rem;
+}
+
+.categoryTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(241, 196, 15, 0.3);
+  font-family: 'Georgia', serif;
+}
+
+.categoryShortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Individual shortcut items */
+.shortcutItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(189, 195, 199, 0.1);
+  transition: all 0.2s ease;
+}
+
+.shortcutItem:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: rgba(255, 107, 53, 0.3);
+  transform: translateX(5px);
+}
+
+.shortcutKeys {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.key {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, 
+    rgba(189, 195, 199, 0.2) 0%, 
+    rgba(189, 195, 199, 0.1) 100%);
+  border: 1px solid rgba(189, 195, 199, 0.3);
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  min-width: 2rem;
+  text-align: center;
+}
+
+.keySeparator {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.shortcutDescription {
+  flex: 1;
+  margin-left: 1rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Footer */
+.helpFooter {
+  padding: 1rem 2rem;
+  background: rgba(44, 62, 80, 0.5);
+  border-top: 1px solid rgba(189, 195, 199, 0.2);
+  text-align: center;
+}
+
+.footerText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .keyboardShortcutsHelp {
+    padding: 1rem;
+  }
+  
+  .helpModal {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+  
+  .helpHeader {
+    padding: 1rem 1.5rem;
+  }
+  
+  .helpTitle {
+    font-size: 1.25rem;
+  }
+  
+  .searchSection,
+  .shortcutsList,
+  .helpFooter {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .shortcutItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .shortcutDescription {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .helpHeader {
+    padding: 0.75rem 1rem;
+  }
+  
+  .helpTitle {
+    font-size: 1.125rem;
+  }
+  
+  .searchSection,
+  .shortcutsList,
+  .helpFooter {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .key {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+    min-width: 1.75rem;
+  }
+  
+  .shortcutDescription {
+    font-size: 0.85rem;
+  }
+}
+
+/* Animation for modal appearance */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.helpModal {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+/* Focus styles for accessibility */
+.closeButton:focus-visible,
+.searchInput:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .helpModal {
+    background: var(--color-background);
+    border-width: 3px;
+  }
+  
+  .key {
+    background: var(--color-text);
+    color: var(--color-background);
+    border-color: var(--color-text);
+  }
+  
+  .shortcutItem:hover {
+    background: var(--color-primary);
+    color: var(--color-background);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .helpModal {
+    animation: none;
+  }
+  
+  .shortcutItem,
+  .closeButton {
+    transition: none;
+  }
+}

@@ -1,7 +1,7 @@
 import './App.css'
 import { Button, Card, Grid, Layout, Container, Loading, FamilyMemberCard, DecorationElement, AltarInterface } from './components'
 import { FamilyMember, DecorationElement as DecorationData } from './types'
-import { DragDropProvider } from './contexts'
+import { DragDropProvider, AppStateProvider, UndoRedoProvider, SynchronizationProvider } from './contexts'
 import { CustomDragLayer } from './components/DragLayer/CustomDragLayer'
 import { useState } from 'react'
 

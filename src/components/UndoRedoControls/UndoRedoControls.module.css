@@ -1,0 +1,217 @@
+/* Undo/Redo Controls Styles */
+.undoRedoControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.undoRedoControls.horizontal {
+  flex-direction: row;
+}
+
+.undoRedoControls.vertical {
+  flex-direction: column;
+}
+
+.undoButton,
+.redoButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary, #FDF2E9);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.undoButton:hover:not(:disabled),
+.redoButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.undoButton:active:not(:disabled),
+.redoButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.undoButton:disabled,
+.redoButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  font-weight: bold;
+  color: var(--color-primary, #FF6B35);
+}
+
+.label {
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* Cultural styling for Day of the Dead theme */
+.undoRedoControls::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 25%,
+    rgba(241, 196, 15, 0.1) 25%,
+    rgba(241, 196, 15, 0.1) 50%,
+    transparent 50%,
+    transparent 75%,
+    rgba(241, 196, 15, 0.1) 75%
+  );
+  background-size: 20px 20px;
+  opacity: 0.3;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Hover effects with cultural colors */
+.undoButton:hover:not(:disabled) .icon {
+  color: var(--color-accent, #F1C40F);
+  text-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+}
+
+.redoButton:hover:not(:disabled) .icon {
+  color: var(--color-accent, #F1C40F);
+  text-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+}
+
+/* Animation for active state */
+.undoButton:active:not(:disabled) .icon,
+.redoButton:active:not(:disabled) .icon {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .undoRedoControls {
+    padding: 0.25rem;
+    gap: 0.25rem;
+  }
+
+  .undoButton,
+  .redoButton {
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0.25rem;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .undoRedoControls {
+    border: 2px solid currentColor;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .undoButton,
+  .redoButton {
+    border: 1px solid currentColor;
+  }
+
+  .undoButton:disabled,
+  .redoButton:disabled {
+    opacity: 0.6;
+    border-style: dashed;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .undoButton,
+  .redoButton {
+    transition: none;
+  }
+
+  .undoButton:hover:not(:disabled),
+  .redoButton:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .undoButton:active:not(:disabled) .icon,
+  .redoButton:active:not(:disabled) .icon {
+    animation: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.undoButton:focus-visible,
+.redoButton:focus-visible {
+  outline: 2px solid var(--color-accent, #F1C40F);
+  outline-offset: 2px;
+}
+
+/* Tooltip positioning */
+.undoButton[title],
+.redoButton[title] {
+  position: relative;
+}
+
+/* Loading state for when operations are in progress */
+.undoButton.loading,
+.redoButton.loading {
+  pointer-events: none;
+}
+
+.undoButton.loading .icon,
+.redoButton.loading .icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

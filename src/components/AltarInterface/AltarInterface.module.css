@@ -1,5 +1,12 @@
 .altarInterface {
   position: relative;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+}
+
+.altarContainer {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -240,7 +247,7 @@
 
 /* Desktop (large screens) */
 @media (min-width: 1025px) {
-  .altarInterface {
+  .altarContainer {
     padding: 2.5rem;
     max-width: 1400px;
     grid-template-columns: 1fr 300px;
@@ -258,31 +265,83 @@
 
 /* Tablet (medium screens) */
 @media (max-width: 1024px) and (min-width: 769px) {
-  .altarInterface {
-    padding: 2rem;
+  .altarContainer {
+    padding: 1.75rem;
     margin: 1rem;
-    grid-template-columns: 1fr 250px;
+    grid-template-columns: 1fr 280px;
     grid-template-areas: 
       "header header"
       "levels palette"
-      "base base"
+      "base palette"
       "background background";
+    gap: 1.25rem;
   }
   
   .altarLevels {
-    gap: 1.5rem;
+    gap: 1.25rem;
+    grid-template-rows: repeat(3, minmax(220px, 1fr));
   }
   
   .altarTitle {
-    font-size: 2.25rem;
+    font-size: 2.1rem;
+    line-height: 1.3;
+  }
+  
+  .altarDescription {
+    font-size: 1.05rem;
+    max-width: 500px;
+  }
+  
+  /* Tablet-specific decoration palette */
+  .decorationPalette {
+    padding: 1.25rem;
+    border-radius: 10px;
+    position: relative;
+    background: linear-gradient(135deg, 
+      rgba(44, 62, 80, 0.85) 0%, 
+      rgba(142, 68, 173, 0.7) 100%);
+    backdrop-filter: blur(8px);
+  }
+  
+  .paletteTitle {
+    font-size: 1.15rem;
+  }
+  
+  .decorationGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
+  
+  .decorationItem {
+    padding: 0.875rem;
+    min-height: 70px;
+  }
+  
+  .decorationIcon {
+    font-size: 1.75rem;
+  }
+  
+  .decorationName {
+    font-size: 0.8rem;
+  }
+  
+  /* Tablet touch optimizations */
+  .decorationItem,
+  .toolButton {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  .toolButton {
+    padding: 0.75rem;
   }
 }
 
 /* Mobile (small screens) */
 @media (max-width: 768px) {
-  .altarInterface {
-    padding: 1.5rem;
-    margin: 1rem;
+  .altarContainer {
+    padding: 1rem;
+    margin: 0.5rem;
     grid-template-rows: auto auto 1fr auto auto;
     grid-template-areas: 
       "header"
@@ -290,50 +349,124 @@
       "levels"
       "base"
       "background";
-    min-height: 90vh;
+    min-height: 100vh;
+    border-radius: 8px;
   }
   
   .altarTitle {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    line-height: 1.2;
   }
   
   .altarDescription {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 0 1rem;
   }
   
   .altarLevels {
-    gap: 1.25rem;
-    grid-template-rows: repeat(3, minmax(180px, 1fr));
+    gap: 1rem;
+    grid-template-rows: repeat(3, minmax(200px, auto));
+    padding: 0.5rem 0;
   }
   
   .altarBase {
-    height: 40px;
+    height: 30px;
+  }
+  
+  /* Mobile-specific touch optimizations */
+  .altarContainer * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Mobile decoration palette visibility */
+  .decorationPalette {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    background: linear-gradient(135deg, 
+      rgba(44, 62, 80, 0.95) 0%, 
+      rgba(142, 68, 173, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+  }
+  
+  .decorationPalette.mobileVisible {
+    left: 0;
+  }
+  
+  /* Larger touch targets for mobile */
+  .decorationItem {
+    min-height: 60px;
+    padding: 0.75rem;
+  }
+  
+  .toolButton {
+    min-height: 48px;
+    min-width: 48px;
   }
 }
 
 /* Mobile (extra small screens) */
 @media (max-width: 480px) {
-  .altarInterface {
-    padding: 1rem;
-    margin: 0.5rem;
-    min-height: 95vh;
+  .altarContainer {
+    padding: 0.75rem;
+    margin: 0.25rem;
+    min-height: 100vh;
+    border-radius: 4px;
   }
   
   .altarTitle {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
   }
   
   .altarDescription {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+    line-height: 1.4;
   }
   
   .altarLevels {
-    gap: 1rem;
-    grid-template-rows: repeat(3, minmax(160px, 1fr));
+    gap: 0.75rem;
+    grid-template-rows: repeat(3, minmax(180px, auto));
+    padding: 0.25rem 0;
   }
   
   .altarBase {
-    height: 30px;
+    height: 25px;
+  }
+  
+  /* Extra small screen optimizations */
+  .altarHeader {
+    padding-bottom: 0.5rem;
+  }
+  
+  /* Single-column layout for very small screens */
+  .decorationGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .decorationItem {
+    min-height: 50px;
+    padding: 0.5rem;
+  }
+  
+  .decorationIcon {
+    font-size: 1.25rem;
+  }
+  
+  .decorationName {
+    font-size: 0.65rem;
   }
 }
 
@@ -828,5 +961,192 @@ hanced decoration palette features */
   
   .toolButton {
     padding: 0.4rem;
+  }
+}
+
+/* Desktop keyboard hints */
+.desktopHints {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 100;
+}
+
+@media (min-width: 1025px) {
+  .desktopHints {
+    display: flex;
+  }
+}
+
+.hintItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(44, 62, 80, 0.9);
+  border: 1px solid rgba(241, 196, 15, 0.3);
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hintKey {
+  display: inline-block;
+  padding: 0.2rem 0.4rem;
+  background: linear-gradient(135deg, 
+    rgba(189, 195, 199, 0.2) 0%, 
+    rgba(189, 195, 199, 0.1) 100%);
+  border: 1px solid rgba(189, 195, 199, 0.3);
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.hintPlus {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hintText {
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Desktop-specific enhancements */
+@media (min-width: 1025px) {
+  .altarContainer {
+    /* Enhanced desktop layout */
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+  }
+  
+  .decorationPalette {
+    /* Enhanced decoration palette for desktop */
+    padding: 2rem;
+    border-radius: 16px;
+  }
+  
+  .decorationGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .decorationItem {
+    padding: 1.25rem;
+    min-height: 80px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .decorationItem:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+  }
+  
+  .decorationIcon {
+    font-size: 2.25rem;
+  }
+  
+  .decorationName {
+    font-size: 0.85rem;
+  }
+  
+  /* Enhanced altar levels for desktop */
+  .altarLevels {
+    gap: 2rem;
+  }
+  
+  /* Desktop-specific cultural elements */
+  .culturalBackground {
+    opacity: 0.8;
+  }
+  
+  .papelPicado {
+    height: 50px;
+    background-size: 80px 50px;
+  }
+  
+  .candleGlow {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .candleGlow::after {
+    width: 20px;
+    height: 20px;
+    right: -100px;
+  }
+}
+
+/* Focus management for keyboard navigation */
+.altarLevel.focused {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+  background: linear-gradient(135deg, 
+    rgba(241, 196, 15, 0.2) 0%, 
+    rgba(255, 107, 53, 0.15) 100%);
+}
+
+.memberCard.selected {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(241, 196, 15, 0.3);
+}
+
+/* Advanced drag and drop visual feedback */
+.altarLevel.dragOver {
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.25) 0%, 
+    rgba(241, 196, 15, 0.2) 100%);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.3);
+  transform: scale(1.02);
+}
+
+.decorationItem.dragSource {
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .decorationItem,
+  .altarLevel,
+  .hintItem {
+    transition: none;
+  }
+  
+  .decorationItem:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .hintItem {
+    background: var(--color-background);
+    border-color: var(--color-text);
+    border-width: 2px;
+  }
+  
+  .hintKey {
+    background: var(--color-text);
+    color: var(--color-background);
+    border-color: var(--color-text);
+  }
+  
+  .altarLevel.focused {
+    outline-width: 4px;
+    background: var(--color-primary);
   }
 }

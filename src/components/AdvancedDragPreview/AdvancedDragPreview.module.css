@@ -1,0 +1,291 @@
+.advancedDragPreview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+  transform-origin: center;
+  animation: dragFloat 2s ease-in-out infinite alternate;
+}
+
+.previewContainer {
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.9) 0%, 
+    rgba(241, 196, 15, 0.8) 100%);
+  border: 2px solid var(--color-accent);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  transform: rotate(-2deg) scale(1.1);
+  transition: all 0.2s ease;
+}
+
+/* Item type specific styling */
+.family-member .previewContainer {
+  background: linear-gradient(135deg, 
+    rgba(142, 68, 173, 0.9) 0%, 
+    rgba(255, 107, 53, 0.8) 100%);
+  border-color: var(--color-secondary);
+}
+
+.decoration .previewContainer {
+  background: linear-gradient(135deg, 
+    rgba(241, 196, 15, 0.9) 0%, 
+    rgba(255, 107, 53, 0.8) 100%);
+  border-color: var(--color-accent);
+}
+
+/* Member preview */
+.memberPreview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 250px;
+}
+
+.memberPreview .familyMemberCard {
+  transform: scale(0.8);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Decoration preview */
+.decorationPreview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 200px;
+}
+
+.decorationIcon {
+  font-size: 3rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+  animation: decorationPulse 1.5s ease-in-out infinite;
+}
+
+/* Preview info */
+.previewInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.previewName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-family: 'Georgia', serif;
+}
+
+.previewHint {
+  font-size: 0.8rem;
+  color: rgba(253, 242, 233, 0.9);
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Cultural decorative elements */
+.culturalElements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.marigoldTrail {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    rgba(255, 107, 53, 0.3) 25%, 
+    transparent 50%, 
+    rgba(241, 196, 15, 0.3) 75%, 
+    transparent 100%);
+  background-size: 200% 200%;
+  animation: marigoldFlow 3s linear infinite;
+  border-radius: 15px;
+}
+
+.sparkleEffect {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: sparkle 1s ease-in-out infinite;
+}
+
+.sparkleEffect::before,
+.sparkleEffect::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.sparkleEffect::before {
+  top: -15px;
+  left: 10px;
+  animation: sparkle 1s ease-in-out infinite 0.3s;
+}
+
+.sparkleEffect::after {
+  bottom: -10px;
+  right: 15px;
+  animation: sparkle 1s ease-in-out infinite 0.6s;
+}
+
+/* Animations */
+@keyframes dragFloat {
+  0% {
+    transform: translateY(0) rotate(-2deg) scale(1.1);
+  }
+  100% {
+    transform: translateY(-5px) rotate(-1deg) scale(1.15);
+  }
+}
+
+@keyframes decorationPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.4)) 
+            drop-shadow(0 0 15px rgba(241, 196, 15, 0.5));
+  }
+}
+
+@keyframes marigoldFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Desktop-specific enhancements */
+@media (min-width: 1025px) {
+  .previewContainer {
+    padding: 1.25rem;
+    transform: rotate(-3deg) scale(1.2);
+  }
+  
+  .memberPreview {
+    min-width: 300px;
+  }
+  
+  .decorationPreview {
+    min-width: 250px;
+  }
+  
+  .decorationIcon {
+    font-size: 3.5rem;
+  }
+  
+  .previewName {
+    font-size: 1.125rem;
+  }
+  
+  .previewHint {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .previewContainer {
+    padding: 0.875rem;
+    transform: rotate(-1deg) scale(1.05);
+  }
+  
+  .memberPreview {
+    min-width: 220px;
+  }
+  
+  .decorationPreview {
+    min-width: 180px;
+  }
+  
+  .decorationIcon {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mobile - simplified preview */
+@media (max-width: 768px) {
+  .advancedDragPreview {
+    display: none; /* Use simpler preview on mobile */
+  }
+}
+
+/* Accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  .advancedDragPreview,
+  .decorationIcon,
+  .marigoldTrail,
+  .sparkleEffect,
+  .sparkleEffect::before,
+  .sparkleEffect::after {
+    animation: none;
+  }
+  
+  .previewContainer {
+    transform: scale(1.1);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .previewContainer {
+    background: var(--color-primary);
+    border-color: var(--color-text);
+    border-width: 3px;
+  }
+  
+  .previewName,
+  .previewHint {
+    color: var(--color-background);
+    text-shadow: none;
+  }
+}
+
+/* Focus and interaction states for keyboard users */
+.advancedDragPreview[data-keyboard-drag="true"] {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 5px;
+}
+
+.advancedDragPreview[data-keyboard-drag="true"] .previewContainer {
+  background: linear-gradient(135deg, 
+    rgba(241, 196, 15, 0.95) 0%, 
+    rgba(255, 107, 53, 0.9) 100%);
+  box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.5),
+              0 12px 30px rgba(0, 0, 0, 0.4);
+}

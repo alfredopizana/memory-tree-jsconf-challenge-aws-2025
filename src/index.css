@@ -40,3 +40,50 @@ body {
   padding: 2rem;
   text-align: center;
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  
+  body {
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 0.5rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Styles for touch devices */
+  * {
+    -webkit-tap-highlight-color: rgba(255, 107, 53, 0.2);
+  }
+  
+  button, 
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+  }
+}
+
+/* Prevent zoom on input focus on iOS */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
