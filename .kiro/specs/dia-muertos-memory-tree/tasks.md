@@ -138,7 +138,11 @@
 
 -
 
-- [ ] 6. Implement drag-and-drop functionality
+- [x] 6. Implement drag-and-drop functionality
+
+
+
+
 
 
 
